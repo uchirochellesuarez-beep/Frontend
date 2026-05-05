@@ -1,0 +1,1193 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --glass-font: 'Plus Jakarta Sans', 'Open Sans', 'Segoe UI', sans-serif;
+  --glass-bg-start: #0f3d28;
+  --glass-bg-mid: #166534;
+  --glass-bg-end: #22a36a;
+  --glass-surface: rgba(245, 255, 248, 0.22);
+  --glass-surface-strong: rgba(243, 255, 247, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.42);
+  --glass-text: #f8fff9;
+  --glass-text-soft: rgba(236, 253, 245, 0.9);
+  --glass-shadow: 0 20px 52px rgba(8, 22, 15, 0.32);
+  --glass-shadow-soft: 0 12px 32px rgba(8, 22, 15, 0.22);
+  --glass-radius: 22px;
+  --glass-gap: clamp(1rem, 1.35vw, 1.45rem);
+  --glass-panel-blur: blur(18px);
+  --glass-approved: #63e68e;
+  --glass-pending: #ffd24d;
+  --glass-rejected: #ff8b8b;
+  --glass-financial: #5ed5d9;
+  --glass-cta-a: #ef7832;
+  --glass-cta-b: #69b36f;
+}
+
+body.glass-dark {
+  --glass-bg-start: #0a2418;
+  --glass-bg-mid: #134e2a;
+  --glass-bg-end: #1a6f47;
+  --glass-surface: rgba(18, 31, 31, 0.42);
+  --glass-surface-strong: rgba(18, 31, 31, 0.6);
+  --glass-border: rgba(129, 214, 174, 0.26);
+  --glass-text: #f0fdf4;
+  --glass-text-soft: rgba(220, 252, 231, 0.88);
+  --glass-shadow: 0 20px 52px rgba(0, 0, 0, 0.48);
+  --glass-shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.36);
+}
+
+html,
+body,
+#app {
+  font-family: var(--glass-font);
+}
+
+body {
+  color: var(--glass-text);
+  background: linear-gradient(135deg, var(--glass-bg-start) 0%, var(--glass-bg-mid) 42%, var(--glass-bg-end) 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -3;
+  background:
+    radial-gradient(ellipse at 5% 8%, rgba(74, 222, 128, 0.16), transparent 48%),
+    radial-gradient(ellipse at 94% 12%, rgba(250, 204, 21, 0.12), transparent 52%),
+    radial-gradient(ellipse at 50% 100%, rgba(22, 163, 74, 0.14), transparent 58%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.5;
+  background:
+    linear-gradient(122deg, rgba(255, 255, 255, 0.18) 0%, transparent 18%),
+    linear-gradient(150deg, rgba(255, 255, 255, 0.12) 0%, transparent 26%),
+    linear-gradient(170deg, transparent 62%, rgba(255, 255, 255, 0.08) 100%);
+  filter: blur(3px);
+}
+
+.app-container,
+.main-content,
+.authenticated-layout,
+.main-content-wrapper {
+  background: transparent !important;
+}
+
+.main-content {
+  padding: clamp(1rem, 1.5vw, 1.65rem) !important;
+  padding-top: calc(70px + clamp(1rem, 1.5vw, 1.65rem)) !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.main-content::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+:is(
+  .dashboard-container,
+  .financial-container,
+  .blockchain-audit-page,
+  .notification-center-container,
+  .quick-actions-page,
+  .page-container,
+  .farmer-table-page,
+  .financial-overview-container,
+  .edit-profile-page,
+  .min-h-screen
+) {
+  color: var(--glass-text) !important;
+  min-height: calc(100vh - 85px);
+  border-radius: var(--glass-radius);
+}
+
+:is(
+  .page-header,
+  .card,
+  .quick-actions-card,
+  .stats-overview,
+  .stat-box,
+  .filters-section,
+  .notification-card,
+  .empty-state,
+  .stat-card,
+  .summary-card,
+  .chart-card,
+  .glass-chart-card,
+  .profile-card,
+  .rejected-card,
+  .info-section,
+  .financial-table-section,
+  .report-generator-panel,
+  .table-wrap,
+  .table-container,
+  .data-table-container,
+  .report-section-card,
+  .modal-content,
+  .header-time-card,
+  .filter-panel,
+  .analytics-section,
+  .tabs-container,
+  .login-card,
+  .signup-card,
+  .tagline-panel,
+  .form-side,
+  .auth-divider,
+  .info-card
+) {
+  background: linear-gradient(145deg, var(--glass-surface-strong), var(--glass-surface)) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: var(--glass-panel-blur) saturate(130%);
+  -webkit-backdrop-filter: var(--glass-panel-blur) saturate(130%);
+  transition:
+    box-shadow 0.28s ease,
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    filter 0.28s ease;
+}
+
+:is(.page-title, .dashboard-title, .form-title, .signup-title, h1, h2, h3) {
+  color: var(--glass-text);
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+
+/* Unify header title color to Machinery theme across pages */
+:is(.page-header .page-title, .page-header h1, .page-header h2, .header-card h1, .header-card h2) {
+  background: linear-gradient(90deg, #86efac 0%, #4ade80 45%, #22c55e 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+:is(.page-subtitle, .form-subtitle, .header-subtitle, p, .stat-label, .card-label, label) {
+  color: var(--glass-text-soft) !important;
+}
+
+.login-page {
+  background: url('https://i.pinimg.com/1200x/1d/73/0c/1d730c5473037a32dd743b05ac2bb466.jpg') center/cover no-repeat fixed !important;
+}
+
+.signup-page {
+  background:
+    linear-gradient(140deg, rgba(239, 120, 50, 0.62), rgba(105, 179, 111, 0.58)),
+    radial-gradient(circle at 12% 5%, rgba(255, 232, 183, 0.3), transparent 42%),
+    radial-gradient(circle at 90% 18%, rgba(145, 211, 161, 0.3), transparent 38%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+:is(.login-page::before, .signup-page::before) {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(255, 202, 141, 0.42), transparent 56%),
+    radial-gradient(ellipse at 93% 8%, rgba(204, 244, 198, 0.33), transparent 50%),
+    linear-gradient(170deg, transparent 48%, rgba(255, 255, 255, 0.08) 100%) !important;
+}
+
+:is(.auth-form .form-input, .registration-form .form-input, .profile-form input, .profile-form select, .filter-input, .input, .form-input, textarea, select, input[type='text'], input[type='password'], input[type='date'], input[type='number'], input[type='tel']) {
+  color: #f7fff9 !important;
+  border: 1px solid rgba(229, 255, 238, 0.42) !important;
+  border-radius: 13px !important;
+  background: rgba(14, 39, 26, 0.36) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+:is(.auth-form .form-input, .registration-form .form-input, .profile-form input, .profile-form select, .filter-input, .input, .form-input, textarea, select, input):focus {
+  outline: none;
+  border-color: rgba(255, 218, 127, 0.95) !important;
+  box-shadow:
+    0 0 0 2px rgba(255, 204, 102, 0.2),
+    0 0 22px rgba(129, 243, 176, 0.22) !important;
+}
+
+:is(input, select, textarea)::placeholder {
+  color: rgba(238, 255, 243, 0.6) !important;
+}
+
+:is(
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-secondary-outline,
+  .submit-btn,
+  .submit-button,
+  .save-btn,
+  .export-btn,
+  .print-btn,
+  .report-type-btn,
+  .btn-action,
+  .tab-btn,
+  .tab,
+  .btn-summary,
+  .link-btn,
+  button[type='submit']
+) {
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 233, 188, 0.42) !important;
+  background: linear-gradient(125deg, rgba(239, 120, 50, 0.88), rgba(105, 179, 111, 0.86)) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  transition: transform 0.28s ease, filter 0.28s ease, box-shadow 0.28s ease !important;
+  box-shadow: 0 10px 20px rgba(22, 47, 31, 0.24) !important;
+}
+
+:is(
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-secondary-outline,
+  .submit-btn,
+  .submit-button,
+  .save-btn,
+  .export-btn,
+  .print-btn,
+  .report-type-btn,
+  .btn-action,
+  .tab-btn,
+  .tab,
+  .btn-summary,
+  .link-btn,
+  button[type='submit']
+):hover {
+  transform: translateY(-1px) scale(1.02) !important;
+  filter: saturate(1.12) brightness(1.05);
+  box-shadow: 0 14px 28px rgba(22, 47, 31, 0.32) !important;
+}
+
+:is(.tab.active, .tab-btn.active, .nav-link.router-link-active, .active .nav-link) {
+  border-color: rgba(255, 248, 220, 0.85) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 237, 187, 0.35),
+    0 12px 24px rgba(22, 47, 31, 0.3),
+    0 0 28px rgba(74, 222, 128, 0.12) !important;
+}
+
+.top-header {
+  background: linear-gradient(
+    118deg,
+    rgba(14, 52, 36, 0.78) 0%,
+    rgba(10, 42, 30, 0.72) 48%,
+    rgba(8, 36, 26, 0.76) 100%
+  ) !important;
+  border-bottom: 1px solid rgba(120, 186, 150, 0.38) !important;
+  box-shadow:
+    0 10px 36px rgba(2, 12, 8, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px) saturate(128%);
+  -webkit-backdrop-filter: blur(14px) saturate(128%);
+}
+
+.nav-badge {
+  background: linear-gradient(125deg, rgba(255, 181, 87, 0.95), rgba(255, 126, 66, 0.92)) !important;
+  color: #1d1d1d !important;
+  border: 1px solid rgba(255, 238, 206, 0.78) !important;
+  box-shadow: 0 6px 16px rgba(26, 19, 12, 0.32) !important;
+}
+
+.notifications-modal,
+.logout-modal {
+  background: linear-gradient(145deg, var(--glass-surface-strong), var(--glass-surface)) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: blur(20px) saturate(136%);
+  -webkit-backdrop-filter: blur(20px) saturate(136%);
+}
+
+.notification-item.unread {
+  border-left: 3px solid var(--glass-pending);
+  background: rgba(255, 210, 77, 0.12);
+}
+
+.notification-center-container {
+  background: transparent !important;
+  color: var(--glass-text) !important;
+}
+
+.notification-center-container .page-header {
+  align-items: center;
+}
+
+.notification-center-container .stat-box,
+.notification-center-container .filters-section,
+.notification-center-container .notification-card,
+.notification-center-container .empty-state {
+  background: linear-gradient(145deg, rgba(248, 255, 251, 0.27), rgba(226, 255, 236, 0.16)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34) !important;
+  box-shadow: var(--glass-shadow-soft) !important;
+}
+
+.notification-center-container .stat-icon {
+  background: linear-gradient(135deg, rgba(239, 120, 50, 0.25), rgba(105, 179, 111, 0.26)) !important;
+  border: 1px solid rgba(255, 227, 193, 0.36);
+}
+
+.notification-center-container .stat-value,
+.notification-center-container .notification-title {
+  color: var(--glass-text) !important;
+}
+
+.notification-center-container .stat-label,
+.notification-center-container .notification-message,
+.notification-center-container .notification-time,
+.notification-center-container .notification-user,
+.notification-center-container .empty-text {
+  color: var(--glass-text-soft) !important;
+}
+
+.notification-center-container .filter-btn,
+.notification-center-container .mark-read-btn,
+.notification-center-container .mark-all-read-btn,
+.notification-center-container .action-btn {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 240, 207, 0.44) !important;
+  background: linear-gradient(125deg, rgba(239, 120, 50, 0.88), rgba(105, 179, 111, 0.85)) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 10px 20px rgba(22, 47, 31, 0.25) !important;
+}
+
+.notification-center-container .filter-btn.active {
+  border-color: rgba(255, 248, 220, 0.85) !important;
+  box-shadow: 0 0 0 1px rgba(255, 237, 187, 0.32), 0 12px 24px rgba(22, 47, 31, 0.3) !important;
+}
+
+.notification-center-container .notification-card.unread {
+  border-left: 4px solid var(--glass-approved) !important;
+  background: linear-gradient(145deg, rgba(149, 239, 183, 0.22), rgba(226, 255, 236, 0.16)) !important;
+}
+
+.notification-center-container .notification-card.urgent {
+  border-left: 4px solid var(--glass-rejected) !important;
+  background: linear-gradient(145deg, rgba(255, 157, 157, 0.22), rgba(255, 225, 225, 0.14)) !important;
+}
+
+.notification-center-container .notification-badge {
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.36) !important;
+}
+
+.notification-center-container .notification-badge.approval {
+  background: rgba(99, 230, 142, 0.22) !important;
+  color: #defee9 !important;
+}
+
+.notification-center-container .notification-badge.alert {
+  background: rgba(255, 210, 77, 0.25) !important;
+  color: #fff4cb !important;
+}
+
+.notification-center-container .notification-badge.system {
+  background: rgba(94, 213, 217, 0.24) !important;
+  color: #e6feff !important;
+}
+
+.quick-actions-page {
+  background: transparent !important;
+}
+
+.quick-actions-page .quick-actions-card {
+  padding: clamp(1rem, 2.4vw, 1.5rem) !important;
+}
+
+.quick-actions-page .card-title,
+.quick-actions-page .action-label {
+  color: var(--glass-text) !important;
+}
+
+.quick-actions-page .actions-grid {
+  gap: var(--glass-gap) !important;
+}
+
+.quick-actions-page .action-btn {
+  background: linear-gradient(145deg, rgba(248, 255, 251, 0.24), rgba(222, 255, 233, 0.16)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  box-shadow: var(--glass-shadow-soft) !important;
+}
+
+.quick-actions-page .action-btn:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  filter: saturate(1.08) brightness(1.03);
+}
+
+.quick-actions-page .action-icon {
+  font-size: 1.9rem !important;
+}
+
+.financial-container .report-option-card,
+.financial-container .actions-card,
+.financial-container .custom-date-inputs,
+.financial-container .orientation-setting,
+.financial-container .payment-type-group,
+.financial-container .payment-interest-box,
+.financial-container .highlight-box,
+.financial-container .summary-table,
+.financial-container .summary-table td,
+.financial-container .summary-table th {
+  background: linear-gradient(145deg, rgba(248, 255, 251, 0.2), rgba(226, 255, 236, 0.14)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: var(--glass-text) !important;
+}
+
+.financial-container .report-option-card h4,
+.financial-container .orientation-label,
+.financial-container .filter-checkbox span,
+.financial-container .date-input-group label,
+.financial-container .checkbox-inline span,
+.financial-container .radio-label span,
+.financial-container .radio-label small,
+.financial-container .interest-already-applied small,
+.financial-container .form-group label {
+  color: var(--glass-text-soft) !important;
+}
+
+.financial-container .form-input-sm,
+.financial-container .summary-table input,
+.financial-container .summary-table select {
+  color: #111827 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 11px !important;
+  background: #ffffff !important;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.financial-container .form-input-sm:focus,
+.financial-container .summary-table input:focus,
+.financial-container .summary-table select:focus {
+  outline: none !important;
+  border-color: #7f9d81 !important;
+  box-shadow:
+    0 0 0 2px rgba(127, 157, 129, 0.28),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.financial-container .btn-generate,
+.financial-container .orient-btn,
+.financial-container .btn-action,
+.financial-container .btn-primary-small {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 233, 188, 0.42) !important;
+  background: linear-gradient(125deg, rgba(239, 120, 50, 0.88), rgba(105, 179, 111, 0.86)) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.financial-container .orient-btn.active,
+.financial-container .btn-action.select-all,
+.financial-container .btn-action.print,
+.financial-container .btn-action.clear {
+  border-color: rgba(255, 248, 220, 0.85) !important;
+  box-shadow: 0 0 0 1px rgba(255, 237, 187, 0.35), 0 12px 24px rgba(22, 47, 31, 0.3) !important;
+}
+
+.financial-container .overdue-flag {
+  color: var(--glass-rejected) !important;
+  font-weight: 800;
+}
+
+.financial-container .info-success {
+  color: var(--glass-approved) !important;
+  font-weight: 700;
+}
+
+.financial-container .info-muted {
+  color: var(--glass-text-soft) !important;
+}
+
+.income-card .card-amount,
+.status-badge.approved,
+.status-badge.completed,
+.text-success {
+  color: var(--glass-approved) !important;
+}
+
+.expense-card .card-amount,
+.status-badge.pending,
+.status-badge.partial,
+.text-warning {
+  color: var(--glass-pending) !important;
+}
+
+.loss-card .card-amount,
+.status-badge.overdue,
+.status-badge.rejected,
+.text-danger {
+  color: var(--glass-rejected) !important;
+}
+
+.collection-card .card-amount,
+.financial-card .card-amount,
+.status-badge.paid,
+.text-info {
+  color: var(--glass-financial) !important;
+}
+
+.chart-legend .legend-item,
+.chart-legend .legend-label,
+.chart-legend .legend-value,
+.glass-chart-header,
+.chart-title,
+.metric-label,
+.metric-status {
+  color: rgba(236, 253, 245, 0.92) !important;
+}
+
+.chart-total,
+.metric-value,
+.chart-amount {
+  color: var(--glass-text) !important;
+}
+
+.badge-success,
+.status-badge.approved,
+.status-badge.paid {
+  background: rgba(99, 230, 142, 0.2) !important;
+  color: #d9ffe8 !important;
+}
+
+.badge-muted,
+.status-badge.pending,
+.status-badge.partial,
+.status-badge.partially-paid {
+  background: rgba(255, 210, 77, 0.2) !important;
+  color: #fff3c6 !important;
+}
+
+.badge-tampered,
+.status-badge.rejected,
+.status-badge.overdue {
+  background: rgba(255, 139, 139, 0.22) !important;
+  color: #ffe2e2 !important;
+}
+
+.chart-card,
+.glass-chart-card,
+.charts-section,
+.chart-container,
+canvas {
+  animation: glass-grow-fade 460ms ease both;
+}
+
+@keyframes glass-grow-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 0.9rem !important;
+    padding-top: calc(70px + 0.9rem) !important;
+  }
+}
+
+/* =============================================
+   DASHBOARD BOXES — Remove white highlight border
+   ============================================= */
+.dashboard-container .stat-card {
+  border: 1px solid rgba(22, 101, 52, 0.45) !important;
+  background: linear-gradient(165deg, #ffffff 0%, #f4fdf7 55%, #ecfdf3 100%) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.06),
+    0 14px 32px rgba(15, 23, 42, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.65) inset !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: transform 0.28s ease, box-shadow 0.28s ease !important;
+}
+
+.dashboard-container .stat-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08),
+    0 22px 44px rgba(22, 101, 52, 0.12),
+    0 0 28px rgba(74, 222, 128, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.75) inset !important;
+}
+
+.dashboard-container .stat-card :is(.stat-label, .stat-value) {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+.dashboard-container .stat-card .stat-pill {
+  color: #111827 !important;
+  border-color: #166534 !important;
+  background: #ffffff !important;
+  text-shadow: none !important;
+}
+
+.dashboard-container .glass-chart-card {
+  border: 1px solid rgba(134, 239, 172, 0.14) !important;
+  background: linear-gradient(165deg, #1a281f 0%, #1f3024 45%, #243529 100%) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    14px 14px 32px rgba(4, 12, 8, 0.55),
+    -10px -10px 26px rgba(43, 62, 47, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: transform 0.28s ease, box-shadow 0.28s ease !important;
+}
+
+.dashboard-container .glass-chart-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow:
+    16px 20px 40px rgba(4, 12, 8, 0.5),
+    -10px -10px 28px rgba(43, 62, 47, 0.48),
+    0 0 36px rgba(74, 222, 128, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+}
+
+.dashboard-container .header-time-card {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: #25382b !important;
+  box-shadow:
+    10px 10px 18px rgba(8, 14, 10, 0.58),
+    -8px -8px 16px rgba(44, 63, 48, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dashboard-container .filter-panel {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: #1f3024 !important;
+  box-shadow:
+    12px 12px 22px rgba(8, 13, 10, 0.52),
+    -10px -10px 20px rgba(43, 62, 47, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dashboard-container .analytics-section {
+  border: none !important;
+  background: linear-gradient(135deg, #17231b 0%, #1f3125 28%, #294032 58%, #345343 100%) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dashboard-container .dashboard-header {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: #1d2b21 !important;
+  box-shadow:
+    16px 16px 30px rgba(8, 14, 10, 0.55),
+    -14px -14px 28px rgba(42, 61, 46, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Dashboard fields: readable light inputs (override global glass form controls).
+ * `.dashboard-container[class]` boosts specificity above theme :is(...) rules. */
+.dashboard-container[class] :is(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']):not([type='image']) {
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.dashboard-container[class] :is(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']):not([type='image']):focus {
+  outline: none !important;
+  border-color: #7f9d81 !important;
+  box-shadow:
+    0 0 0 2px rgba(127, 157, 129, 0.28),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.dashboard-container[class] input::placeholder,
+.dashboard-container[class] textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+.dashboard-container[class] select option {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* =============================================
+   BLOCKCHAIN — Remove white highlight
+   ============================================= */
+.blockchain-audit-page .summary-card {
+  background: rgba(28, 42, 33, 0.90) !important;
+  border: 1px solid rgba(190, 235, 203, 0.14) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.blockchain-audit-page .summary-card.valid {
+  border-color: rgba(74, 222, 128, 0.35) !important;
+  background: linear-gradient(145deg, rgba(74, 222, 128, 0.10), rgba(28, 42, 33, 0.90)) !important;
+}
+
+.blockchain-audit-page .summary-card.tampered {
+  border-color: rgba(248, 113, 113, 0.35) !important;
+  background: linear-gradient(145deg, rgba(248, 113, 113, 0.10), rgba(28, 42, 33, 0.90)) !important;
+}
+
+.blockchain-audit-page .page-header {
+  background: rgba(25, 38, 29, 0.92) !important;
+  border: 1px solid rgba(190, 235, 203, 0.14) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.blockchain-audit-page .table-wrap {
+  background: rgba(25, 38, 29, 0.88) !important;
+  border: 1px solid rgba(190, 235, 203, 0.12) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.blockchain-audit-page .summary-grid {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* =============================================
+   FARMERS TABLE — Remove white blend on boxes
+   ============================================= */
+.farmer-table-page .tabs-container,
+.farmer-table-page .rejected-card,
+.farmer-table-page .table-wrap,
+.farmer-table-page .section-card,
+.farmer-table-page .role-tabs,
+.farmer-table-page .modal-content,
+.farmer-table-page .members-table,
+.farmer-table-page .table-container {
+  background: linear-gradient(145deg, rgba(23, 36, 28, 0.96), rgba(16, 27, 21, 0.95)) !important;
+  border: 1px solid rgba(126, 184, 145, 0.24) !important;
+  box-shadow: 0 10px 24px rgba(6, 12, 9, 0.42) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.farmer-table-page .tab-btn,
+.farmer-table-page .role-tab,
+.farmer-table-page .refresh-btn,
+.farmer-table-page .search-input,
+.farmer-table-page .role-select,
+.farmer-table-page .edit-input {
+  background: rgba(18, 31, 24, 0.92) !important;
+  border: 1px solid rgba(126, 184, 145, 0.28) !important;
+  color: #dcfce7 !important;
+  box-shadow: none !important;
+}
+
+.farmer-table-page .tab-btn:hover,
+.farmer-table-page .role-tab:hover,
+.farmer-table-page .refresh-btn:hover {
+  background: rgba(25, 42, 32, 0.96) !important;
+  color: #ecfdf5 !important;
+}
+
+.farmer-table-page .tab-btn.active,
+.farmer-table-page .role-tab.active {
+  background: linear-gradient(135deg, rgba(16, 129, 67, 0.92), rgba(5, 150, 105, 0.88)) !important;
+  border-color: rgba(134, 239, 172, 0.5) !important;
+  color: #f0fdf4 !important;
+}
+
+.farmer-table-page .section-title,
+.farmer-table-page .rejected-title,
+.farmer-table-page .state-text,
+.farmer-table-page .td-muted,
+.farmer-table-page .detail-value,
+.farmer-table-page .member-name,
+.farmer-table-page .modal-title,
+.farmer-table-page .members-table th,
+.farmer-table-page .members-table td,
+.farmer-table-page .rej-table td {
+  color: #dcfce7 !important;
+}
+
+.farmer-table-page .rej-table tbody tr:nth-child(even) td,
+.farmer-table-page .members-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.farmer-table-page .rej-table tbody tr:hover td,
+.farmer-table-page .members-table tbody tr:hover td {
+  background: rgba(74, 222, 128, 0.08) !important;
+}
+
+.farmer-table-page .avatar-placeholder,
+.farmer-table-page .role-badge {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(126, 184, 145, 0.26) !important;
+  color: #dcfce7 !important;
+}
+
+/* =============================================
+   SHARE CAPITAL — Remove white highlight
+   ============================================= */
+.page-container .page-header {
+  background: rgba(25, 38, 29, 0.92) !important;
+  border: 1px solid rgba(190, 235, 203, 0.13) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-container .card {
+  background: rgba(28, 42, 33, 0.90) !important;
+  border: 1px solid rgba(190, 235, 203, 0.13) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-container .stat-card {
+  background: rgba(28, 42, 33, 0.90) !important;
+  border: 1px solid rgba(190, 235, 203, 0.13) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-container .table-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-container .stats-grid {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-container .empty-state {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* =============================================
+   SETTINGS (EDIT PROFILE) — white fields + dark readable text
+   ============================================= */
+.edit-profile-page[class] .profile-card {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+
+.edit-profile-page[class] .profile-form {
+  background: #ffffff !important;
+}
+
+.edit-profile-page[class] .form-group label,
+.edit-profile-page[class] .readonly-field label {
+  color: #374151 !important;
+}
+
+.edit-profile-page[class] .readonly-field span {
+  color: #111827 !important;
+}
+
+.edit-profile-page[class] .profile-form :is(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']) {
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+.edit-profile-page[class] .profile-form :is(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']):focus {
+  outline: none !important;
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12) !important;
+}
+
+.edit-profile-page[class] .profile-form :is(input, textarea)::placeholder {
+  color: #6b7280 !important;
+}
+
+/* =============================================
+   MACHINERY FINANCIAL — Light summary cards & readable text
+   ============================================= */
+.financial-container[class] .summary-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.08),
+    0 8px 24px rgba(15, 23, 42, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.financial-container[class] .summary-card::before,
+.financial-container[class] .summary-card::after {
+  display: none !important;
+}
+
+.financial-container[class] .summary-card .card-label,
+.financial-container[class] .summary-card .summary-label {
+  color: #475569 !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .summary-card .summary-count {
+  color: #64748b !important;
+}
+
+/* Amounts: strong contrast on white (overrides global .income-card .card-amount etc.) */
+.financial-container[class] .income-card .card-amount,
+.financial-container[class] .income-card .summary-value {
+  color: #166534 !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .expense-card .card-amount,
+.financial-container[class] .expense-card .summary-value {
+  color: #c2410c !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .profit-card:not(.negative) .card-amount,
+.financial-container[class] .profit-card:not(.negative) .summary-value {
+  color: #14532d !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .profit-card.negative .card-amount,
+.financial-container[class] .loss-card .summary-value {
+  color: #b91c1c !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .collection-card .summary-value {
+  color: #0369a1 !important;
+}
+
+.financial-container[class] .ar-card .card-amount,
+.financial-container[class] .collected-card .card-amount {
+  color: #166534 !important;
+}
+
+.financial-container[class] .balance-card .card-amount {
+  color: #b91c1c !important;
+}
+
+/* Hero KPI row (top three cards): black titles + amounts, subtitle-sized labels */
+.financial-container[class] .summary-cards > .summary-card .card-label {
+  color: #111827 !important;
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .summary-cards > .summary-card .card-amount {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .summary-cards > .summary-card.profit-card.negative .card-amount {
+  color: #b91c1c !important;
+}
+
+/* Financial reports panel: white cards/buttons with black readable text */
+.financial-container[class] .report-option-card,
+.financial-container[class] .actions-card,
+.financial-container[class] .custom-date-inputs,
+.financial-container[class] .orientation-setting {
+  background: #ffffff !important;
+  border: 1px solid #166534 !important;
+  color: #111827 !important;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06) !important;
+}
+
+.financial-container[class] .report-option-card h4,
+.financial-container[class] .orientation-label,
+.financial-container[class] .checkbox-inline span,
+.financial-container[class] .filter-checkbox span,
+.financial-container[class] .date-input-group label {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+.financial-container[class] .report-type-btn,
+.financial-container[class] .orient-btn,
+.financial-container[class] .btn-generate,
+.financial-container[class] .btn-action {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #166534 !important;
+  box-shadow: 0 1px 6px rgba(15, 23, 42, 0.08) !important;
+  filter: none !important;
+}
+
+.financial-container[class] .report-type-btn:hover,
+.financial-container[class] .orient-btn:hover,
+.financial-container[class] .btn-generate:hover,
+.financial-container[class] .btn-action:hover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+.financial-container[class] .report-type-btn.active,
+.financial-container[class] .orient-btn.active {
+  background: #ffffff !important;
+  color: #14532d !important;
+  border-color: #7f9d81 !important;
+  box-shadow: 0 0 0 2px rgba(127, 157, 129, 0.28) !important;
+}
+
+.financial-container[class] .filter-checkbox {
+  background: #ffffff !important;
+  border: 1px solid #166534 !important;
+  box-shadow: none !important;
+}
+
+.financial-container[class] .filter-checkbox:hover {
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+}
+
+.financial-container[class] .report-type-btn .btn-icon,
+.financial-container[class] .btn-action .btn-icon {
+  display: none !important;
+}
+
+/* Filter bar & modals: white fields, dark text */
+.financial-container[class] :is(.filter-input, .filter-select-glass, .barangay-select, textarea.form-input, select.form-input, input.form-input):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']) {
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.financial-container[class] :is(.filter-input, .filter-select-glass, .barangay-select, textarea.form-input, select.form-input, input.form-input):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='hidden']):not([type='file']):focus {
+  outline: none !important;
+  border-color: #7f9d81 !important;
+  box-shadow:
+    0 0 0 2px rgba(127, 157, 129, 0.28),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.financial-container[class] select option {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.financial-container[class] .filter-input::placeholder,
+.financial-container[class] textarea.form-input::placeholder,
+.financial-container[class] input.form-input::placeholder,
+.financial-container[class] .form-input-sm::placeholder {
+  color: #6b7280 !important;
+}
+
+.financial-container .page-header {
+  background: linear-gradient(135deg, rgba(28, 41, 31, 0.94) 0%, rgba(35, 54, 40, 0.9) 56%, rgba(48, 78, 62, 0.84) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    18px 18px 34px rgba(8, 14, 10, 0.5),
+    -14px -14px 26px rgba(42, 61, 46, 0.4) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.financial-container .tab-content {
+  background: rgba(29, 43, 33, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    14px 14px 26px rgba(8, 13, 10, 0.5),
+    0 0 0 1px rgba(20, 32, 24, 0.45),
+    inset 0 -26px 30px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.financial-container .tabs-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Tab pills (e.g. Profit Computation, Reports): white chrome, readable dark text */
+.financial-container[class] .tabs-container .tab {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+
+.financial-container[class] .tabs-container .tab:hover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+  transform: translateY(-1px) !important;
+  filter: none !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1) !important;
+}
+
+.financial-container[class] .tabs-container .tab.active {
+  background: #ffffff !important;
+  color: #14532d !important;
+  border-color: #7f9d81 !important;
+  box-shadow:
+    0 0 0 2px rgba(127, 157, 129, 0.35),
+    0 2px 10px rgba(15, 23, 42, 0.08) !important;
+}
+
+.financial-container .table-container {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (max-width: 768px) {
+  :is(.dashboard-container, .financial-container, .blockchain-audit-page, .page-container, .farmer-table-page, .financial-overview-container, .edit-profile-page, .min-h-screen) {
+    border-radius: 16px;
+  }
+
+  :is(.page-header, .card, .stat-card, .summary-card, .chart-card, .glass-chart-card, .table-container, .data-table-container, .modal-content, .login-card, .signup-card) {
+    border-radius: 16px !important;
+  }
+
+  .stats-grid,
+  .summary-grid,
+  .summary-cards,
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
