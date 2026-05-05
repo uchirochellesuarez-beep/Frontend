@@ -2,73 +2,73 @@
   <div class="machinery-booking-page">
     <!-- Page Header -->
     <div class="page-header">
-      <div class="header-content">
-        <h1 class="page-title">🚜 Machinery Booking Service</h1>
-        <p class="page-subtitle">Book farm machinery and equipment for your agricultural needs</p>
+      <div class="glass-header">
+        <div class="header-text">
+          <h1 class="page-title">Machinery Booking Service</h1>
+          <p class="page-subtitle">Book farm machinery and equipment for your agricultural needs</p>
+        </div>
       </div>
     </div>
 
     <!-- My Bookings Stats -->
+    <div class="stats-group">
+      <div class="stats-group-title">Booking Overview</div>
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📋</div>
+      <div class="stat-card glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">My Bookings</div>
           <div class="stat-value">{{ myBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card stat-pending">
-        <div class="stat-icon">⏳</div>
+      <div class="stat-card stat-pending glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Pending</div>
           <div class="stat-value">{{ pendingBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card stat-success">
-        <div class="stat-icon">✅</div>
+      <div class="stat-card stat-success glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Approved</div>
           <div class="stat-value">{{ approvedBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card stat-info">
-        <div class="stat-icon">🏁</div>
+      <div class="stat-card stat-info glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Completed</div>
           <div class="stat-value">{{ completedBookingsCount }}</div>
         </div>
       </div>
+      </div>
     </div>
 
     <!-- Payment Status Stats -->
-    <div class="stats-grid payment-stats">
-      <div class="stat-card stat-danger">
-        <div class="stat-icon">💳</div>
+    <div class="stats-group payment-group">
+      <div class="stats-group-title">Payment Overview</div>
+      <div class="stats-grid payment-stats">
+      <div class="stat-card stat-danger glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Unpaid</div>
           <div class="stat-value">{{ unpaidBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card stat-warning">
-        <div class="stat-icon">💰</div>
+      <div class="stat-card stat-warning glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Partial</div>
           <div class="stat-value">{{ partialBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card stat-paid">
-        <div class="stat-icon">✅</div>
+      <div class="stat-card stat-paid glass-stat-card">
         <div class="stat-content">
           <div class="stat-label">Fully Paid</div>
           <div class="stat-value">{{ paidBookingsCount }}</div>
         </div>
       </div>
-      <div class="stat-card" :class="outstandingBalance > 0 ? 'stat-danger' : 'stat-paid'">
-        <div class="stat-icon">₱</div>
+      <div class="stat-card glass-stat-card stat-outstanding" :class="outstandingBalance > 0 ? 'stat-danger' : 'stat-paid'">
         <div class="stat-content">
           <div class="stat-label">Outstanding Balance</div>
           <div class="stat-value">₱{{ formatNumber(outstandingBalance) }}</div>
         </div>
+      </div>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
 
     <!-- Available Machinery -->
     <div class="section">
-      <h2 class="section-title">🚜 Available Machinery</h2>
+      <h2 class="section-title">Available Machinery</h2>
       
       <!-- Machinery Type Filter -->
       <div class="filters" style="margin-bottom: 20px;">
@@ -165,7 +165,7 @@
 
     <!-- My Bookings -->
     <div class="section">
-      <h2 class="section-title">📋 My Bookings</h2>
+      <h2 class="section-title">My Bookings</h2>
       
       <!-- Filters -->
       <div class="filters">
@@ -1209,75 +1209,173 @@ export default {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #0f1712 0%, #132119 22%, #1a2b20 45%, #243b2c 72%, #2f4a38 100%);
+  color: #ecfbe2;
+  border-radius: 20px;
 }
 
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 24px;
 }
 
+.glass-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  padding: 28px 24px;
+  border-radius: 24px;
+  background: linear-gradient(110deg, #0b3a2a 0%, #0d4a35 52%, #0b3a2a 100%);
+  border: 1px solid rgba(52, 104, 81, 0.7);
+  box-shadow:
+    0 14px 28px rgba(4, 14, 10, 0.32),
+    inset 0 1px 0 rgba(196, 255, 224, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.header-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background: linear-gradient(135deg, rgba(188, 252, 219, 0.45), rgba(255, 255, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.34);
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
 .page-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 900;
+  color: #f7fff4;
   margin: 0;
+  line-height: 1.1;
 }
 
 .page-subtitle {
-  color: #666;
+  color: rgba(240, 255, 238, 0.72);
   margin: 4px 0 0 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stats-group {
+  margin-bottom: 18px;
+}
+
+.payment-group {
+  padding-top: 18px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.stats-group-title {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: rgba(220, 238, 211, 0.78);
+  margin-bottom: 12px;
+  text-align: center;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
   margin-bottom: 24px;
 }
 
 .stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 20px 18px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  justify-content: center;
+  gap: 0;
+  transition: transform 220ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+.glass-stat-card {
+  background: linear-gradient(135deg, rgba(162, 246, 195, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 14px 24px rgba(8, 13, 10, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-stat-card:hover {
+  transform: scale(1.05);
+  border-color: rgba(220, 255, 233, 0.5);
+  box-shadow: 0 18px 32px rgba(10, 25, 14, 0.34), 0 0 22px rgba(110, 231, 183, 0.22);
+}
+
+.stat-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(227, 255, 237, 0.36), rgba(255, 255, 255, 0.14));
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .stat-icon {
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .stat-label {
-  color: #666;
-  font-size: 14px;
+  color: rgba(220, 238, 211, 0.74);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
   margin-bottom: 4px;
+  text-align: center;
 }
 
 .stat-value {
-  font-size: 28px;
-  font-weight: bold;
-  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  text-align: center;
 }
 
-.stat-pending { border-left: 4px solid #f59e0b; }
-.stat-success { border-left: 4px solid #10b981; }
-.stat-info { border-left: 4px solid #3b82f6; }
-.stat-danger { border-left: 4px solid #ef4444; }
-.stat-warning { border-left: 4px solid #f59e0b; }
-.stat-paid { border-left: 4px solid #10b981; }
+.stat-pending { border-left: 4px solid rgba(251, 191, 36, 0.92); }
+.stat-success { border-left: 4px solid rgba(74, 222, 128, 0.92); }
+.stat-info { border-left: 4px solid rgba(96, 165, 250, 0.92); }
+.stat-danger { border-left: 4px solid rgba(248, 113, 113, 0.9); }
+.stat-warning { border-left: 4px solid rgba(251, 191, 36, 0.92); }
+.stat-paid { border-left: 4px solid rgba(74, 222, 128, 0.92); }
+
+.stat-outstanding .stat-value {
+  color: #ffffff;
+  text-shadow: none;
+}
 
 .payment-stats {
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 /* Outstanding Balance Warning */
 .outstanding-warning {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 1px solid #fecaca;
+  background: linear-gradient(135deg, rgba(110, 38, 38, 0.4) 0%, rgba(78, 24, 24, 0.4) 100%);
+  border: 1px solid rgba(248, 113, 113, 0.35);
   border-left: 4px solid #ef4444;
   border-radius: 12px;
   padding: 20px;
@@ -1393,7 +1491,7 @@ export default {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #1a1a1a;
+  color: #ecfbe2;
 }
 
 .machinery-grid {
@@ -1404,10 +1502,14 @@ export default {
 }
 
 .machinery-card {
-  background: white;
+  background: #1f3024;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    14px 14px 26px rgba(8, 13, 10, 0.55),
+    -12px -12px 24px rgba(43, 62, 47, 0.52),
+    inset -1px -1px 0 rgba(0,0,0,0.36);
   transition: transform 0.2s;
 }
 
@@ -1426,12 +1528,12 @@ export default {
 .machinery-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #ecfbe2;
   margin: 0;
 }
 
 .machinery-description {
-  color: #666;
+  color: rgba(236, 252, 231, 0.82);
   font-size: 14px;
   margin-bottom: 16px;
   min-height: 40px;
@@ -1451,18 +1553,18 @@ export default {
 }
 
 .detail-label {
-  color: #666;
+  color: rgba(220, 238, 211, 0.76);
   font-size: 14px;
 }
 
 .detail-value {
   font-weight: 600;
-  color: #1a1a1a;
+  color: #f2ffe8;
 }
 
 .btn-book {
   width: 100%;
-  background: #3b82f6;
+  background: linear-gradient(135deg, #53b476 0%, #2f8f53 100%);
   color: white;
   border: none;
   padding: 12px;
@@ -1473,7 +1575,7 @@ export default {
 }
 
 .btn-book:hover {
-  background: #2563eb;
+  background: linear-gradient(135deg, #45a669 0%, #267947 100%);
 }
 
 /* Machinery Picture Styles */
@@ -1527,17 +1629,20 @@ export default {
 
 .filter-select {
   padding: 10px 14px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
   font-size: 14px;
   min-width: 200px;
+  background: #223427;
+  color: #ecfbe2;
 }
 
 .bookings-table-container {
-  background: white;
+  background: #1f3024;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
 }
 
 .bookings-table {
@@ -1546,20 +1651,21 @@ export default {
 }
 
 .bookings-table thead {
-  background: #f8f9fa;
+  background: #223427;
 }
 
 .bookings-table th {
   padding: 16px;
   text-align: left;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e5e7eb;
+  color: #eaf9e0;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
 }
 
 .bookings-table td {
   padding: 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: rgba(236, 252, 231, 0.9);
 }
 
 .booking-machinery {
@@ -1569,7 +1675,7 @@ export default {
 }
 
 .booking-machinery small {
-  color: #666;
+  color: rgba(220, 238, 211, 0.72);
   font-size: 12px;
 }
 
@@ -1613,14 +1719,15 @@ export default {
 .btn-icon-small {
   padding: 6px 10px;
   border: none;
-  background: #f3f4f6;
+  background: #2a3d30;
+  color: #ecfbe2;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .btn-icon-small:hover {
-  background: #e5e7eb;
+  background: #324a3b;
 }
 
 .btn-icon-small.btn-danger:hover {
@@ -1628,7 +1735,7 @@ export default {
 }
 
 .btn-primary {
-  background: #3b82f6;
+  background: linear-gradient(135deg, #53b476 0%, #2f8f53 100%);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -1641,11 +1748,11 @@ export default {
 }
 
 .btn-primary:hover {
-  background: #2563eb;
+  background: linear-gradient(135deg, #45a669 0%, #267947 100%);
 }
 
 .btn-secondary {
-  background: #6b7280;
+  background: #3f4f44;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -1668,7 +1775,9 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(8, 12, 10, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1676,13 +1785,14 @@ export default {
 }
 
 .modal-content {
-  background: white;
+  background: linear-gradient(155deg, rgba(24, 34, 29, 0.96) 0%, rgba(22, 31, 27, 0.94) 45%, rgba(19, 28, 24, 0.96) 100%);
   border-radius: 16px;
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  border: 1px solid rgba(116, 150, 128, 0.35);
+  box-shadow: 0 20px 60px rgba(6, 10, 8, 0.62);
 }
 
 .modal-large {
@@ -1695,7 +1805,7 @@ export default {
 
 .modal-header {
   padding: 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(152, 186, 164, 0.22);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1704,6 +1814,7 @@ export default {
 .modal-header h2 {
   margin: 0;
   font-size: 22px;
+  color: #f2eee4;
 }
 
 .modal-close {
@@ -1711,7 +1822,7 @@ export default {
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #666;
+  color: #d7cfbf;
 }
 
 .modal-body {
@@ -1726,15 +1837,17 @@ export default {
   display: block;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #333;
+  color: #eaf9e0;
 }
 
 .form-input {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 8px;
   font-size: 14px;
+  background: #223427;
+  color: #ecfbe2;
 }
 
 .form-input.input-error {
@@ -1786,7 +1899,7 @@ export default {
 }
 
 .price-summary {
-  background: #f9fafb;
+  background: #223427;
   border-radius: 8px;
   padding: 16px;
   margin-top: 20px;
@@ -1819,7 +1932,7 @@ export default {
 .detail-section h3 {
   font-size: 18px;
   margin: 0 0 16px 0;
-  color: #1a1a1a;
+  color: #ecfbe2;
 }
 
 .details-grid {
@@ -1836,7 +1949,7 @@ export default {
 
 .detail-item label {
   font-weight: 600;
-  color: #666;
+  color: rgba(220, 238, 211, 0.75);
   font-size: 14px;
 }
 
@@ -1862,15 +1975,15 @@ export default {
 }
 
 .notes-text {
-  background: #f9fafb;
+  background: #223427;
   padding: 16px;
   border-radius: 8px;
-  color: #333;
+  color: #ecfbe2;
   line-height: 1.6;
 }
 
 .booking-summary {
-  background: #f9fafb;
+  background: #223427;
   padding: 16px;
   border-radius: 8px;
   margin: 16px 0;
@@ -1886,7 +1999,7 @@ export default {
 .empty-cell {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: rgba(220, 238, 211, 0.78);
 }
 
 .empty-icon {
@@ -1907,6 +2020,38 @@ export default {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-header {
+    padding: 20px 16px;
+    gap: 12px;
+  }
+
+  .header-icon-wrap {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
 }
 
 .alert {

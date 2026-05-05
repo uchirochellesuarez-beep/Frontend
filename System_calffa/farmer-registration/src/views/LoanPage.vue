@@ -1,35 +1,37 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h1 class="page-title">💰 My Loans</h1>
+    <div class="page-header glass-header">
+      <div class="header-title-row">
+        <h1 class="page-title">My Loans</h1>
+      </div>
       <p class="page-subtitle">Apply for agricultural loans and manage your loan applications</p>
     </div>
 
     <!-- Loan Statistics -->
     <div class="stats-grid">
       <div class="stat-card pending">
-        <div class="stat-icon">⏳</div>
+        <div class="stat-icon-wrap"><div class="stat-icon">⏳</div></div>
         <div class="stat-content">
           <div class="stat-value">{{ pendingLoans.length }}</div>
           <div class="stat-label">Pending</div>
         </div>
       </div>
       <div class="stat-card approved">
-        <div class="stat-icon">✓</div>
+        <div class="stat-icon-wrap"><div class="stat-icon">✓</div></div>
         <div class="stat-content">
           <div class="stat-value">{{ approvedLoans.length }}</div>
           <div class="stat-label">Approved</div>
         </div>
       </div>
       <div class="stat-card active">
-        <div class="stat-icon">💳</div>
+        <div class="stat-icon-wrap"><div class="stat-icon">💳</div></div>
         <div class="stat-content">
           <div class="stat-value">{{ activeLoans.length }}</div>
           <div class="stat-label">Active</div>
         </div>
       </div>
       <div class="stat-card rejected">
-        <div class="stat-icon">✗</div>
+        <div class="stat-icon-wrap"><div class="stat-icon">✗</div></div>
         <div class="stat-content">
           <div class="stat-value">{{ rejectedLoans.length }}</div>
           <div class="stat-label">Rejected</div>
@@ -50,24 +52,30 @@
         <form @submit.prevent="submitLoanApplication" class="loan-form" v-if="canApplyLoan">
           <div class="form-group">
             <label>Loan Type</label>
-            <select v-model="loanForm.type" required @change="updateMaxAmount">
-              <option value="">Select loan type</option>
-              <option value="agricultural">Agricultural Loan (Max: ₱5,000)</option>
-              <option value="provident">Provident Loan (Max: ₱3,000)</option>
-              <option value="educational">Educational Loan (Max: ₱3,000)</option>
-            </select>
+            <div class="input-shell">
+              <span class="field-icon" aria-hidden="true">▾</span>
+              <select v-model="loanForm.type" required @change="updateMaxAmount">
+                <option value="">Select loan type</option>
+                <option value="agricultural">Agricultural Loan (Max: ₱5,000)</option>
+                <option value="provident">Provident Loan (Max: ₱3,000)</option>
+                <option value="educational">Educational Loan (Max: ₱3,000)</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label>Loan Amount (₱)</label>
-            <input
-              type="number"
-              v-model="loanForm.amount"
-              placeholder="Enter amount"
-              required
-              min="500"
-              :max="maxLoanAmount"
-              step="100"
-            />
+            <div class="input-shell">
+              <span class="field-icon" aria-hidden="true">₱</span>
+              <input
+                type="number"
+                v-model="loanForm.amount"
+                placeholder="Enter amount"
+                required
+                min="500"
+                :max="maxLoanAmount"
+                step="100"
+              />
+            </div>
             <small v-if="loanForm.type" class="help-text">
               Maximum: ₱{{ maxLoanAmount.toLocaleString() }} | 
               Interest: 1% | 
@@ -81,12 +89,15 @@
           </div>
           <div class="form-group">
             <label>Purpose (Optional)</label>
-            <input
-              type="text"
-              v-model="loanForm.purpose"
-              placeholder="Enter loan purpose"
-              maxlength="200"
-            />
+            <div class="input-shell">
+              <span class="field-icon" aria-hidden="true">✎</span>
+              <input
+                type="text"
+                v-model="loanForm.purpose"
+                placeholder="Enter loan purpose"
+                maxlength="200"
+              />
+            </div>
           </div>
           <div class="loan-info-box">
             <h4>📋 Loan Terms & Conditions</h4>
@@ -106,6 +117,7 @@
       <!-- My Loans Section with Tabs -->
       <div class="card loans-card">
         <h2 class="card-title">My Loan Applications</h2>
+        <p class="loan-guidance-text">Tip: Piliin ang status tab para mabilis mong makita kung anong hakbang na ang application mo.</p>
         
         <!-- Tabs -->
         <div class="tabs">
@@ -113,25 +125,25 @@
             :class="['tab', { active: activeTab === 'pending' }]"
             @click="activeTab = 'pending'"
           >
-            Pending ({{ pendingLoans.length }})
+            ⏳ Pending ({{ pendingLoans.length }})
           </button>
           <button
             :class="['tab', { active: activeTab === 'approved' }]"
             @click="activeTab = 'approved'"
           >
-            Approved ({{ approvedLoans.length }})
+            ✅ Approved ({{ approvedLoans.length }})
           </button>
           <button
             :class="['tab', { active: activeTab === 'active' }]"
             @click="activeTab = 'active'"
           >
-            Active ({{ activeLoans.length }})
+            💳 Active ({{ activeLoans.length }})
           </button>
           <button
             :class="['tab', { active: activeTab === 'rejected' }]"
             @click="activeTab = 'rejected'"
           >
-            Rejected ({{ rejectedLoans.length }})
+            ❌ Rejected ({{ rejectedLoans.length }})
           </button>
           <button
             :class="['tab', { active: activeTab === 'completed' }]"
@@ -152,7 +164,7 @@
           <!-- Pending Loans -->
           <div v-if="activeTab === 'pending'">
             <div v-if="pendingLoans.length === 0" class="empty-state">
-              <p>📋 No pending loan applications</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in pendingLoans" :key="loan.id" class="loan-item pending" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -161,6 +173,12 @@
                 </div>
                 <div class="loan-body">
                   <div class="loan-amount">₱{{ loan.loan_amount.toLocaleString() }}</div>
+                  <div class="approval-progress">
+                    <div class="approval-track">
+                      <div class="approval-fill" :style="{ width: (getStageIndex(loan.status) / 3) * 100 + '%' }"></div>
+                    </div>
+                    <div class="approval-stage-text">Stage {{ getStageIndex(loan.status) + 1 }} of 4 • For review</div>
+                  </div>
                   <div class="loan-details">
                     <p><strong>Type:</strong> {{ formatLoanType(loan.loan_type) }}</p>
                     <p><strong>Purpose:</strong> {{ formatPurpose(loan.loan_purpose) }}</p>
@@ -169,8 +187,8 @@
                   </div>
                 </div>
                 <div class="loan-actions">
-                  <button class="edit-btn" @click="editLoan(loan)">✏️ Edit</button>
-                  <button class="view-btn" @click="viewLoanDetails(loan)">View Details</button>
+                  <button class="edit-btn primary-action" @click="editLoan(loan)">Edit</button>
+                  <button class="view-btn secondary-action" @click="viewLoanDetails(loan)">View Details</button>
                 </div>
               </div>
             </div>
@@ -179,7 +197,7 @@
           <!-- Approved Loans -->
           <div v-if="activeTab === 'approved'">
             <div v-if="approvedLoans.length === 0" class="empty-state">
-              <p>✓ No approved loans waiting for activation</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in approvedLoans" :key="loan.id" class="loan-item approved" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -188,6 +206,12 @@
                 </div>
                 <div class="loan-body">
                   <div class="loan-amount">₱{{ loan.loan_amount.toLocaleString() }}</div>
+                  <div class="approval-progress">
+                    <div class="approval-track">
+                      <div class="approval-fill" :style="{ width: (getStageIndex(loan.status) / 3) * 100 + '%' }"></div>
+                    </div>
+                    <div class="approval-stage-text">Stage {{ getStageIndex(loan.status) + 1 }} of 4 • Approved</div>
+                  </div>
                   <div class="loan-details">
                     <p><strong>Purpose:</strong> {{ formatPurpose(loan.loan_purpose) }}</p>
                     <p><strong>Payment Term:</strong> {{ loan.payment_term }} months</p>
@@ -196,7 +220,7 @@
                     <p v-if="loan.remarks"><strong>Remarks:</strong> {{ loan.remarks }}</p>
                   </div>
                 </div>
-                <button class="view-btn" @click="viewLoanDetails(loan)">View Details</button>
+                <button class="view-btn secondary-action" @click="viewLoanDetails(loan)">View Details</button>
               </div>
             </div>
           </div>
@@ -204,7 +228,7 @@
           <!-- Active Loans -->
           <div v-if="activeTab === 'active'">
             <div v-if="activeLoans.length === 0" class="empty-state">
-              <p>💳 No active loans</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in activeLoans" :key="loan.id" class="loan-item active" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -213,6 +237,12 @@
                 </div>
                 <div class="loan-body">
                   <div class="loan-amount">₱{{ loan.loan_amount.toLocaleString() }}</div>
+                  <div class="approval-progress">
+                    <div class="approval-track">
+                      <div class="approval-fill" :style="{ width: (getStageIndex(loan.status) / 3) * 100 + '%' }"></div>
+                    </div>
+                    <div class="approval-stage-text">Stage {{ getStageIndex(loan.status) + 1 }} of 4 • Active repayment</div>
+                  </div>
                   <div class="loan-progress">
                     <div class="progress-bar">
                       <div 
@@ -231,7 +261,7 @@
                     <p><strong>Due Date:</strong> {{ formatDate(loan.due_date) }}</p>
                   </div>
                 </div>
-                <button class="view-btn" @click="viewLoanDetails(loan)">View Details</button>
+                <button class="view-btn secondary-action" @click="viewLoanDetails(loan)">View Details</button>
               </div>
             </div>
           </div>
@@ -239,7 +269,7 @@
           <!-- Rejected Loans -->
           <div v-if="activeTab === 'rejected'">
             <div v-if="rejectedLoans.length === 0" class="empty-state">
-              <p>✗ No rejected applications</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in rejectedLoans" :key="loan.id" class="loan-item rejected" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -248,6 +278,12 @@
                 </div>
                 <div class="loan-body">
                   <div class="loan-amount">₱{{ loan.loan_amount.toLocaleString() }}</div>
+                  <div class="approval-progress">
+                    <div class="approval-track">
+                      <div class="approval-fill rejected-fill" :style="{ width: (getStageIndex(loan.status) / 3) * 100 + '%' }"></div>
+                    </div>
+                    <div class="approval-stage-text">Stage {{ getStageIndex(loan.status) + 1 }} of 4 • Application closed</div>
+                  </div>
                   <div class="loan-details">
                     <p><strong>Loan Type:</strong> {{ formatLoanType(loan.loan_type) }}</p>
                     <p><strong>Submitted:</strong> {{ formatDate(loan.application_date) }}</p>
@@ -255,7 +291,7 @@
                     <p class="rejection-reason"><strong>Reason:</strong> {{ loan.rejection_reason || 'Not specified' }}</p>
                   </div>
                 </div>
-                <button class="view-btn" @click="viewLoanDetails(loan)">View Details</button>
+                <button class="view-btn secondary-action" @click="viewLoanDetails(loan)">View Details</button>
               </div>
             </div>
           </div>
@@ -263,7 +299,7 @@
           <!-- Overdue Loans -->
           <div v-if="activeTab === 'overdue'">
             <div v-if="overdueLoans.length === 0" class="empty-state">
-              <p>✅ No overdue loans</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div
@@ -309,7 +345,7 @@
           <!-- Completed Loans -->
           <div v-if="activeTab === 'completed'">
             <div v-if="completedLoans.length === 0" class="empty-state">
-              <p>🎉 No completed loans yet</p>
+              <p>No loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in completedLoans" :key="loan.id" class="loan-item completed" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -318,13 +354,19 @@
                 </div>
                 <div class="loan-body">
                   <div class="loan-amount">₱{{ loan.loan_amount.toLocaleString() }}</div>
+                  <div class="approval-progress">
+                    <div class="approval-track">
+                      <div class="approval-fill" :style="{ width: (getStageIndex(loan.status) / 3) * 100 + '%' }"></div>
+                    </div>
+                    <div class="approval-stage-text">Stage {{ getStageIndex(loan.status) + 1 }} of 4 • Completed</div>
+                  </div>
                   <div class="loan-details">
                     <p><strong>Purpose:</strong> {{ formatPurpose(loan.loan_purpose) }}</p>
                     <p><strong>Total Paid:</strong> ₱{{ loan.total_paid.toLocaleString() }}</p>
                     <p><strong>Completed:</strong> {{ formatDate(loan.updated_at) }}</p>
                   </div>
                 </div>
-                <button class="view-btn" @click="viewLoanDetails(loan)">View Details</button>
+                <button class="view-btn secondary-action" @click="viewLoanDetails(loan)">View Details</button>
               </div>
             </div>
           </div>
@@ -898,6 +940,17 @@ const updateLoan = async () => {
 const formatLoanType = (type) => {
   if (!type) return 'N/A'
   return type.charAt(0).toUpperCase() + type.slice(1) + ' Loan'
+}
+
+const getStageIndex = (status) => {
+  const stageMap = {
+    pending: 1,
+    approved: 2,
+    active: 3,
+    paid: 3,
+    rejected: 1
+  }
+  return stageMap[status] ?? 1
 }
 
 const formatDate = (dateString) => {
@@ -1558,5 +1611,463 @@ const formatPurpose = (purpose) => {
 .payment-history-table .amount {
   color: #2f855a;
   font-weight: 600;
+}
+
+/* ===== Modern Glass Redesign Overrides ===== */
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(145deg, #0f1712 0%, #132119 28%, #1f3627 64%, #2a4735 100%);
+  border-radius: 20px;
+}
+
+.glass-header {
+  background: linear-gradient(135deg, rgba(167, 243, 198, 0.18) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 14px 30px rgba(6, 12, 9, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 1.5rem 1.75rem;
+}
+
+.header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.35rem;
+}
+
+.header-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.page-title {
+  color: #f0fdf4;
+  font-weight: 900;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: rgba(220, 252, 231, 0.78);
+}
+
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.stat-card {
+  background: linear-gradient(140deg, rgba(167, 243, 198, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(5, 11, 8, 0.28);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.1rem 1rem;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+  border-color: rgba(167, 243, 198, 0.55);
+  box-shadow: 0 14px 28px rgba(5, 11, 8, 0.38), 0 0 20px rgba(74, 222, 128, 0.18);
+}
+
+.stat-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.stat-icon {
+  font-size: 20px;
+}
+
+.stat-value {
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.stat-label {
+  color: rgba(236, 253, 245, 0.88);
+  font-weight: 700;
+}
+
+.content-grid {
+  grid-template-columns: minmax(300px, 0.95fr) minmax(460px, 1.35fr);
+  gap: 1.5rem;
+}
+
+.card {
+  background: linear-gradient(145deg, rgba(16, 44, 31, 0.86), rgba(13, 37, 27, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  box-shadow: 0 16px 30px rgba(4, 9, 7, 0.34);
+}
+
+.card-title {
+  color: #ecfdf5;
+  font-weight: 800;
+}
+
+.alert-info {
+  background: rgba(219, 234, 254, 0.88);
+  color: #0f3f66;
+  border-left: 4px solid #38bdf8;
+  border-radius: 12px;
+}
+
+.alert-warning {
+  border-radius: 12px;
+}
+
+.loan-form {
+  gap: 1.1rem;
+}
+
+.form-group label {
+  color: rgba(236, 253, 245, 0.9);
+  font-weight: 600;
+}
+
+.input-shell {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(187, 247, 208, 0.9);
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.82rem 0.82rem 0.82rem 2.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(134, 239, 172, 0.28);
+  background: rgba(8, 30, 22, 0.52);
+  color: #ecfdf5;
+}
+
+.form-group input::placeholder {
+  color: rgba(209, 250, 229, 0.55);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: rgba(110, 231, 183, 0.9);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.15), 0 0 16px rgba(74, 222, 128, 0.22);
+}
+
+.help-text {
+  color: rgba(220, 252, 231, 0.78);
+}
+
+.loan-info-box {
+  background: rgba(239, 246, 255, 0.9);
+  border-radius: 14px;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  transition: transform 180ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(22, 163, 74, 0.34);
+  filter: brightness(1.02);
+}
+
+.tabs {
+  border-bottom: none;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.1rem;
+}
+
+.tab {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #e6fff1;
+  font-weight: 700;
+  padding: 0.52rem 0.85rem;
+  transition: all 220ms ease;
+}
+
+.tab:hover {
+  color: #ffffff;
+  border-color: rgba(110, 231, 183, 0.5);
+}
+
+.tab.active {
+  color: #052e16;
+  background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
+  border-color: rgba(187, 247, 208, 0.9);
+  box-shadow: 0 0 16px rgba(74, 222, 128, 0.4);
+}
+
+.tab.active::after {
+  display: none;
+}
+
+.loan-guidance-text {
+  margin: -0.1rem 0 0.95rem;
+  color: rgba(220, 252, 231, 0.86);
+  font-size: 0.88rem;
+}
+
+
+.loan-item {
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(245, 255, 250, 0.94), rgba(236, 253, 245, 0.9));
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 8px 18px rgba(3, 10, 7, 0.12);
+}
+
+.loan-amount {
+  color: #0f5132;
+  font-size: 2.15rem;
+  font-weight: 900;
+  margin-bottom: 0.42rem;
+}
+
+.loan-status {
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 0.34rem 0.86rem;
+  border-radius: 999px;
+  letter-spacing: 0.01em;
+}
+
+.loan-item.pending .loan-status {
+  background: #fef3c7;
+  color: #854d0e;
+  border: 1px solid #fcd34d;
+}
+
+.loan-item.approved .loan-status,
+.loan-item.completed .loan-status {
+  background: #dcfce7;
+  color: #14532d;
+  border: 1px solid #86efac;
+}
+
+.loan-item.active .loan-status {
+  background: #dbeafe;
+  color: #1e3a8a;
+  border: 1px solid #93c5fd;
+}
+
+.loan-item.rejected .loan-status {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.approval-progress {
+  margin-bottom: 0.75rem;
+}
+
+.approval-track {
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: #dbe7df;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+}
+
+.approval-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+  transition: width 240ms ease;
+}
+
+.approval-fill.rejected-fill {
+  background: linear-gradient(90deg, #f97316 0%, #ef4444 100%);
+}
+
+.approval-stage-text {
+  font-size: 0.92rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Improve Loan Details modal readability */
+.modal-content {
+  background: #ffffff !important;
+  border: 1px solid #bbf7d0;
+}
+
+.modal-header h3 {
+  color: #14532d !important;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.details-grid {
+  gap: 1rem;
+}
+
+.detail-item {
+  background: #f8fffb;
+  border: 1px solid #dcfce7;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+}
+
+.detail-item label {
+  color: #166534 !important;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.detail-item p {
+  color: #0f172a !important;
+  font-size: 1.06rem;
+  font-weight: 700;
+}
+
+.detail-item .amount {
+  color: #065f46 !important;
+  font-size: 1.18rem;
+  font-weight: 900;
+}
+
+.status-badge {
+  font-size: 0.83rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #fde68a !important;
+  color: #78350f !important;
+  border: 1px solid #f59e0b;
+}
+
+.loan-details {
+  font-size: 1.04rem;
+  color: #0b1f16 !important;
+  line-height: 1.75;
+  background: #ffffff;
+  border: 1px solid #d1fae5;
+  border-radius: 12px;
+  padding: 0.65rem 0.82rem;
+}
+
+.loan-details p {
+  margin: 0.42rem 0;
+  color: #0b1f16 !important;
+  font-weight: 600;
+}
+
+.loan-details strong {
+  color: #14532d !important;
+  font-weight: 800;
+}
+
+.loan-details p * {
+  color: inherit !important;
+}
+
+.loan-actions .edit-btn,
+.loan-actions .view-btn {
+  width: auto;
+  flex: 1;
+}
+
+.primary-action {
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+  border: 1px solid rgba(21, 128, 61, 0.9);
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.3);
+  transition: transform 180ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+
+.primary-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(22, 163, 74, 0.38);
+  filter: brightness(1.03);
+}
+
+.secondary-action {
+  background: #ffffff;
+  border: 1px solid #16a34a;
+  color: #0f5132;
+  font-weight: 700;
+  transition: transform 180ms ease, background-color 220ms ease, box-shadow 220ms ease;
+}
+
+.secondary-action:hover {
+  background: #f0fdf4;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 15px rgba(15, 81, 50, 0.16);
+}
+
+.empty-state {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  min-height: 220px;
+  color: rgba(220, 252, 231, 0.86);
+}
+
+.empty-state::before {
+  content: "📄";
+  display: block;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .loan-amount {
+    font-size: 1.82rem;
+  }
+
+  .tab {
+    font-size: 0.8rem;
+  }
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar-wrapper" v-if="!isNonMember">
     <!-- Sidebar Navigation -->
-    <nav :class="['sidebar', { 'farmer-theme': isFarmer }]">
-      <div class="backdrop-sidebar" :class="isFarmer ? 'backdrop-theme-farmer' : 'backdrop-theme'"></div>
+    <nav class="sidebar">
+      <div class="backdrop-sidebar backdrop-theme"></div>
 
     <!-- Logo Header -->
     <div class="sidebar-header">
@@ -260,7 +260,6 @@ const currentUser = computed(() => authStore.currentUser);
 const isAdmin = computed(() => currentUser.value?.role === 'admin');
 const isPresident = computed(() => currentUser.value?.role === 'president');
 const isOperator = computed(() => currentUser.value?.role === 'operator');
-const isFarmer = computed(() => currentUser.value?.role === 'farmer');
 const isOfficer = computed(() => {
   const role = currentUser.value?.role;
   return ['president', 'treasurer', 'auditor', 'agriculturist'].includes(role);

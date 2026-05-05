@@ -1199,6 +1199,7 @@ h1 { margin: 0; font-size: clamp(2rem, 2.2vw, 2.8rem); }
   display: grid;
   place-items: center;
   padding: 16px;
+  z-index: 2400;
 }
 
 .modal {
@@ -1208,6 +1209,8 @@ h1 { margin: 0; font-size: clamp(2rem, 2.2vw, 2.8rem); }
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 18px 38px rgba(0,0,0,0.45);
+  position: relative;
+  z-index: 2401;
 }
 
 .modal h3 { margin-top: 0; }

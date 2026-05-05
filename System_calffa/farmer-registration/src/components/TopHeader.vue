@@ -1,5 +1,5 @@
 <template>
-  <header :class="['top-header', { 'farmer-theme': isFarmer }]">
+  <header class="top-header">
     <div class="header-content">
       <!-- Right: User Controls -->
       <div class="user-controls">
@@ -145,7 +145,6 @@ const unreadCount = ref(0)
 
 // Role check
 const userRole = computed(() => authStore.currentUser?.role)
-const isFarmer = computed(() => userRole.value === 'farmer')
 const isAdminRole = computed(() => ['admin', 'treasurer', 'president'].includes(userRole.value))
 
 const userName = computed(() => authStore.currentUser?.full_name || 'Juan Dela Cruz')

@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">🌾 Talaan ng Kita sa Pagsasaka</h1>
+      <h1 class="page-title">Talaan ng Kita sa Pagsasaka</h1>
       <p class="page-subtitle">Punan ang form na ito para maitala ang iyong gastos at kita sa pagsasaka. Kinakailangan para sa eligibility sa tulong na pang-agrikultura tulad ng pataba at binhi.</p>
     </div>
 
@@ -22,21 +22,21 @@
         :class="{ active: activeTab === 'form' }"
         @click="activeTab = 'form'; if (editingRecordId) cancelEdit()"
       >
-        {{ editingRecordId ? '✏️ I-edit ang Talaan' : '📝 Bagong Talaan' }}
+        {{ editingRecordId ? 'I-edit ang Talaan' : 'Bagong Talaan' }}
       </button>
       <button
         class="tab-btn"
         :class="{ active: activeTab === 'history' }"
         @click="activeTab = 'history'; fetchRecords()"
       >
-        📋 Mga Naunang Talaan
+        Mga Naunang Talaan
       </button>
       <button
         class="tab-btn"
         :class="{ active: activeTab === 'assistance' }"
         @click="activeTab = 'assistance'; fetchCompletedAssistance()"
       >
-        📦 Tulong na Natanggap
+        Tulong na Natanggap
       </button>
     </div>
 
@@ -51,7 +51,7 @@
 
         <!-- Section 1: Farm Details -->
         <div class="form-section">
-          <h2 class="section-title">🌱 Detalye ng Taniman</h2>
+          <h2 class="section-title">Detalye ng Taniman</h2>
           <div class="form-row">
             <div class="form-group">
               <label>Lawak ng Taniman (Ektarya)</label>
@@ -89,7 +89,7 @@
 
         <!-- Section 2: Abono (Fertilizers) -->
         <div class="form-section">
-          <h2 class="section-title">🧪 Mga Ginamit na Abono</h2>
+          <h2 class="section-title">Mga Ginamit na Abono</h2>
           <div class="dynamic-table-wrapper">
             <table class="dynamic-table">
               <thead>
@@ -165,7 +165,7 @@
 
         <!-- Section 3: Pesticides -->
         <div class="form-section">
-          <h2 class="section-title">🧴 Mga Ginamit na Lason</h2>
+          <h2 class="section-title">Mga Ginamit na Lason</h2>
           <div class="dynamic-table-wrapper">
             <table class="dynamic-table">
               <thead>
@@ -237,7 +237,7 @@
 
         <!-- Section 4: Labor & Other Expenses -->
         <div class="form-section">
-          <h2 class="section-title">👷 Gastos sa Labor at Iba Pa</h2>
+          <h2 class="section-title">Gastos sa Labor at Iba Pa</h2>
           <div class="form-row">
             <div class="form-group">
               <label>Gastos sa Paghahanda ng Lupang Taniman (₱)</label>
@@ -292,7 +292,7 @@
 
         <!-- Section 5: Harvest -->
         <div class="form-section">
-          <h2 class="section-title">🌾 Ani</h2>
+          <h2 class="section-title">Ani</h2>
           <div class="form-row">
             <div class="form-group">
               <label>Ilang Sako ang Naani</label>
@@ -313,7 +313,7 @@
 
         <!-- Summary Section -->
         <div class="form-section summary-section">
-          <h2 class="section-title">📊 Buod</h2>
+          <h2 class="section-title">Buod</h2>
           <div class="summary-grid">
             <div class="summary-item">
               <span class="summary-label">Kabuuang Ani (kg)</span>
@@ -996,25 +996,44 @@ const getTimeSinceReceived = (dateStr) => {
 
 <style scoped>
 .page-container {
-  max-width: 1000px;
+  max-width: 1440px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .page-header {
-  margin-bottom: 1.5rem;
+  background: rgba(25, 38, 29, 0.92);
+  border: 1px solid rgba(190, 235, 203, 0.13);
+  border-radius: 20px;
+  padding: 32px 38px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.13) 0%, transparent 65%);
+  pointer-events: none;
 }
 
 .page-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #166534;
-  margin: 0 0 0.25rem 0;
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  color: #eefde6;
 }
 
 .page-subtitle {
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin: 0;
+  margin: 6px 0 0 0;
+  color: rgba(220, 238, 211, 0.78);
+  font-size: 17px;
 }
 
 /* Alerts */
@@ -1048,53 +1067,58 @@ const getTimeSinceReceived = (dateStr) => {
 /* Tab Navigation */
 .tab-nav {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  align-items: center;
 }
 .tab-btn {
-  padding: 0.6rem 1.2rem;
-  border: 2px solid #d1d5db;
-  background: #f9fafb;
-  border-radius: 8px;
+  padding: 0.78rem 1.3rem;
+  border: 1px solid rgba(190, 235, 203, 0.2);
+  background: rgba(28, 42, 33, 0.9);
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 600;
-  transition: all 0.2s;
+  font-weight: 700;
+  color: rgba(220, 238, 211, 0.9);
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), inset 1px 1px 0 rgba(255, 255, 255, 0.04);
 }
 .tab-btn.active {
-  background: #166534;
-  color: white;
-  border-color: #166534;
+  background: linear-gradient(135deg, rgba(22, 101, 52, 0.95), rgba(21, 128, 61, 0.92));
+  color: #eefde6;
+  border-color: rgba(134, 239, 172, 0.45);
+  box-shadow: 0 8px 18px rgba(4, 12, 8, 0.32), 0 0 18px rgba(74, 222, 128, 0.2);
 }
 .tab-btn:hover:not(.active) {
-  border-color: #16a34a;
-  background: #f0fdf4;
+  border-color: rgba(134, 239, 172, 0.35);
+  background: rgba(32, 49, 38, 0.95);
+  transform: translateY(-1px);
 }
 
 /* Form Sections */
 .form-section {
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(167, 243, 208, 0.45);
+  border-radius: 16px;
+  padding: 2.15rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 20px rgba(6, 16, 11, 0.2);
 }
 
 .section-title {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #166534;
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #d1fae5;
+  border-bottom: 1px solid rgba(167, 243, 208, 0.65);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .form-group {
@@ -1105,19 +1129,19 @@ const getTimeSinceReceived = (dateStr) => {
   grid-column: 1 / -1;
 }
 .form-group label {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: #374151;
   margin-bottom: 0.35rem;
 }
 .form-group input,
 .form-group select {
-  padding: 0.55rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 1.05rem 1.1rem;
+  border: 1px solid rgba(110, 231, 183, 0.35);
+  border-radius: 12px;
+  font-size: 0.95rem;
   transition: border-color 0.2s;
-  background: #fff;
+  background: rgba(245, 255, 250, 0.9);
 }
 .form-group input:focus,
 .form-group select:focus {
@@ -1133,19 +1157,19 @@ const getTimeSinceReceived = (dateStr) => {
 .dynamic-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 .dynamic-table th {
   background: #f0fdf4;
   color: #166534;
   font-weight: 600;
-  padding: 0.6rem 0.5rem;
+  padding: 0.95rem 0.75rem;
   text-align: left;
   border-bottom: 2px solid #bbf7d0;
   white-space: nowrap;
 }
 .dynamic-table td {
-  padding: 0.4rem 0.5rem;
+  padding: 0.75rem 0.75rem;
   border-bottom: 1px solid #e5e7eb;
   vertical-align: middle;
 }
@@ -1203,13 +1227,13 @@ const getTimeSinceReceived = (dateStr) => {
 }
 .add-row-btn {
   margin-top: 0.75rem;
-  padding: 0.5rem 1rem;
+  padding: 0.9rem 1.35rem;
   background: #f0fdf4;
   color: #166534;
   border: 1px dashed #16a34a;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s;
 }
@@ -1223,20 +1247,21 @@ const getTimeSinceReceived = (dateStr) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+  border: 1px solid #22c55e;
   border-radius: 8px;
   padding: 0.75rem 1rem;
   margin-top: 0.75rem;
 }
 .labor-total-label {
-  font-weight: 700;
-  color: #374151;
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: #ecfdf5 !important;
 }
 .labor-total-value {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #166534;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #bbf7d0 !important;
 }
 
 /* Summary Section */
@@ -1258,14 +1283,14 @@ const getTimeSinceReceived = (dateStr) => {
 }
 .summary-item .summary-label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #6b7280;
   margin-bottom: 0.3rem;
   font-weight: 600;
 }
 .summary-item .summary-value {
   display: block;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
 }
 .summary-item.income .summary-value { color: #2563eb; }
@@ -1283,28 +1308,28 @@ const getTimeSinceReceived = (dateStr) => {
   padding: 0.5rem 0 1rem;
 }
 .btn-reset {
-  padding: 0.65rem 1.5rem;
+  padding: 1rem 1.8rem;
   background: #f3f4f6;
   color: #374151;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   transition: all 0.2s;
 }
 .btn-reset:hover {
   background: #e5e7eb;
 }
 .btn-submit {
-  padding: 0.65rem 2rem;
+  padding: 1rem 2.4rem;
   background: linear-gradient(135deg, #166534, #16a34a);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   transition: all 0.2s;
   box-shadow: 0 2px 8px rgba(22, 101, 52, 0.3);
 }
@@ -1970,9 +1995,9 @@ const getTimeSinceReceived = (dateStr) => {
 .page-container .assistance-card,
 .page-container .summary-box,
 .page-container .modal-container {
-  background: linear-gradient(145deg, rgba(24, 38, 29, 0.96), rgba(19, 31, 24, 0.95)) !important;
-  border: 1px solid rgba(126, 184, 145, 0.26) !important;
-  box-shadow: 0 10px 26px rgba(6, 12, 9, 0.42) !important;
+  background: linear-gradient(145deg, rgba(33, 55, 42, 0.92), rgba(28, 46, 36, 0.9)) !important;
+  border: 1px solid rgba(167, 243, 208, 0.32) !important;
+  box-shadow: 0 10px 22px rgba(6, 12, 9, 0.34) !important;
 }
 
 .page-container .detail-cell,
@@ -1981,8 +2006,8 @@ const getTimeSinceReceived = (dateStr) => {
 .page-container .expense-row,
 .page-container .assistance-card .card-footer,
 .page-container .assistance-card .card-header {
-  background: rgba(18, 31, 24, 0.9) !important;
-  border-color: rgba(126, 184, 145, 0.2) !important;
+  background: rgba(42, 64, 50, 0.78) !important;
+  border-color: rgba(167, 243, 208, 0.28) !important;
 }
 
 .page-container .dynamic-table th,
@@ -1997,6 +2022,30 @@ const getTimeSinceReceived = (dateStr) => {
 .page-container .info-value,
 .page-container .cell-value {
   color: #dcfce7 !important;
+}
+
+/* Force white text for farmer income form content */
+.page-container .form-section,
+.page-container .form-section label,
+.page-container .section-title,
+.page-container .dynamic-table th,
+.page-container .dynamic-table td,
+.page-container .computed-cell,
+.page-container .total-label,
+.page-container .total-value,
+.page-container .labor-total-label,
+.page-container .labor-total-value,
+.page-container .summary-item .summary-label,
+.page-container .summary-item .summary-value,
+.page-container .summary-label,
+.page-container .summary-value,
+.page-container .form-group input,
+.page-container .form-group select {
+  color: #ffffff !important;
+}
+
+.page-container .form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.82) !important;
 }
 
 .page-container .modal-footer {

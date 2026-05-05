@@ -766,6 +766,11 @@ onMounted(async () => {
   padding: 16px 18px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.24), inset 1px 1px 0 rgba(255,255,255,0.05);
   transition: transform 0.2s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-card:hover {
@@ -786,6 +791,7 @@ onMounted(async () => {
   color: var(--green);
   margin-top: 6px;
   font-family: monospace;
+  text-align: center;
 }
 
 /* ============================================
