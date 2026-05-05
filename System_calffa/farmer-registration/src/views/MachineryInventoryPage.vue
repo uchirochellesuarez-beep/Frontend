@@ -130,14 +130,14 @@
             </td>
             <td>
               <div class="action-buttons">
-                <button @click="viewMachinery(machine)" class="btn-icon-small" title="View Details">
-                  👁️
+                <button @click="viewMachinery(machine)" class="btn-icon-small btn-view" title="View Details" aria-label="View details">
+                  🔍
                 </button>
-                <button @click="editMachinery(machine)" class="btn-icon-small" title="Edit">
-                  ✏️
+                <button @click="editMachinery(machine)" class="btn-icon-small btn-edit" title="Edit" aria-label="Edit machinery">
+                  ✎
                 </button>
-                <button @click="deleteMachineryConfirm(machine)" class="btn-icon-small btn-danger" title="Delete">
-                  🗑️
+                <button @click="deleteMachineryConfirm(machine)" class="btn-icon-small btn-danger" title="Delete" aria-label="Delete machinery">
+                  🗑
                 </button>
               </div>
             </td>
@@ -799,21 +799,55 @@ export default {
 }
 
 .btn-icon-small {
-  padding: 6px 10px;
-  border: none;
-  background: #f3f4f6;
-  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  border-radius: 9px;
   cursor: pointer;
   transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
 }
 
 .btn-icon-small:hover {
-  background: #e5e7eb;
-  transform: scale(1.05);
+  transform: translateY(-1px);
+}
+
+.btn-icon-small.btn-view {
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.btn-icon-small.btn-view:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.btn-icon-small.btn-edit {
+  color: #b45309;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.btn-icon-small.btn-edit:hover {
+  background: #fef3c7;
+  border-color: #fcd34d;
+}
+
+.btn-icon-small.btn-danger {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fef2f2;
 }
 
 .btn-icon-small.btn-danger:hover {
   background: #fee2e2;
+  border-color: #fca5a5;
 }
 
 .btn-primary {

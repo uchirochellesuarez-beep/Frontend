@@ -4,7 +4,7 @@
       <div class="header-title-row">
         <h1 class="page-title">My Loans</h1>
       </div>
-      <p class="page-subtitle">Apply for agricultural loans and manage your loan applications</p>
+      <p class="page-subtitle">Manage member-facing loan applications with clear status tracking and quick admin actions.</p>
     </div>
 
     <!-- Loan Statistics -->
@@ -43,6 +43,11 @@
       <!-- Loan Application Form -->
       <div class="card application-card">
         <h2 class="card-title">Apply for New Loan</h2>
+        <div class="application-steps" aria-label="Application steps">
+          <div class="step-chip active"><span>1</span> Fill in details</div>
+          <div class="step-chip"><span>2</span> Review terms</div>
+          <div class="step-chip"><span>3</span> Submit request</div>
+        </div>
         
         <!-- Eligibility Message -->
         <div v-if="eligibilityMessage" class="alert" :class="canApplyLoan ? 'alert-info' : 'alert-warning'">
@@ -164,7 +169,8 @@
           <!-- Pending Loans -->
           <div v-if="activeTab === 'pending'">
             <div v-if="pendingLoans.length === 0" class="empty-state">
-              <p>No loan applications yet.</p>
+              <span class="empty-illustration">📄</span>
+              <p>No pending loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in pendingLoans" :key="loan.id" class="loan-item pending" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -197,7 +203,8 @@
           <!-- Approved Loans -->
           <div v-if="activeTab === 'approved'">
             <div v-if="approvedLoans.length === 0" class="empty-state">
-              <p>No loan applications yet.</p>
+              <span class="empty-illustration">✅</span>
+              <p>No approved loan applications yet.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in approvedLoans" :key="loan.id" class="loan-item approved" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -228,7 +235,8 @@
           <!-- Active Loans -->
           <div v-if="activeTab === 'active'">
             <div v-if="activeLoans.length === 0" class="empty-state">
-              <p>No loan applications yet.</p>
+              <span class="empty-illustration">💳</span>
+              <p>No active loans at the moment.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in activeLoans" :key="loan.id" class="loan-item active" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -269,7 +277,8 @@
           <!-- Rejected Loans -->
           <div v-if="activeTab === 'rejected'">
             <div v-if="rejectedLoans.length === 0" class="empty-state">
-              <p>No loan applications yet.</p>
+              <span class="empty-illustration">❌</span>
+              <p>No rejected applications.</p>
             </div>
             <div v-else class="loans-list">
               <div v-for="loan in rejectedLoans" :key="loan.id" class="loan-item rejected" :data-loan-id="loan.id" :class="{ 'notification-highlight': highlightedLoanId == loan.id }">
@@ -299,7 +308,8 @@
           <!-- Overdue Loans -->
           <div v-if="activeTab === 'overdue'">
             <div v-if="overdueLoans.length === 0" class="empty-state">
-              <p>No loan applications yet.</p>
+              <span class="empty-illustration">⏰</span>
+              <p>No overdue loan balances.</p>
             </div>
             <div v-else class="loans-list">
               <div
@@ -1761,11 +1771,12 @@ const formatPurpose = (purpose) => {
 
 .form-group input,
 .form-group select {
-  padding: 0.82rem 0.82rem 0.82rem 2.1rem;
+  padding: 0.96rem 0.92rem 0.96rem 2.3rem;
   border-radius: 12px;
   border: 1px solid rgba(134, 239, 172, 0.28);
   background: rgba(8, 30, 22, 0.52);
   color: #ecfdf5;
+  font-size: 0.98rem;
 }
 
 .form-group input::placeholder {
@@ -1790,7 +1801,9 @@ const formatPurpose = (purpose) => {
 .submit-btn {
   background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   border-radius: 12px;
-  padding: 0.9rem 1rem;
+  padding: 1rem 1rem;
+  font-size: 0.98rem;
+  font-weight: 800;
   transition: transform 180ms ease, box-shadow 220ms ease, filter 220ms ease;
 }
 
@@ -1837,7 +1850,74 @@ const formatPurpose = (purpose) => {
 .loan-guidance-text {
   margin: -0.1rem 0 0.95rem;
   color: rgba(220, 252, 231, 0.86);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
+}
+
+.application-steps {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin: 0.1rem 0 0.9rem;
+}
+
+.step-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.46rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #dcfce7;
+  background: rgba(16, 56, 39, 0.55);
+  border: 1px solid rgba(134, 239, 172, 0.26);
+}
+
+.step-chip span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: rgba(220, 252, 231, 0.2);
+}
+
+.step-chip.active {
+  background: rgba(22, 163, 74, 0.45);
+  border-color: rgba(187, 247, 208, 0.56);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.9rem;
+}
+
+.quick-action-btn {
+  border: 1px solid rgba(134, 239, 172, 0.36);
+  background: rgba(12, 46, 32, 0.62);
+  color: #ecfdf5;
+  border-radius: 10px;
+  padding: 0.5rem 0.78rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 220ms ease, background-color 220ms ease;
+}
+
+.quick-action-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(22, 163, 74, 0.38);
+  box-shadow: 0 8px 14px rgba(3, 15, 10, 0.3);
+}
+
+.quick-action-btn.action-refresh {
+  background: rgba(30, 64, 175, 0.4);
+  border-color: rgba(147, 197, 253, 0.6);
 }
 
 
@@ -2039,11 +2119,16 @@ const formatPurpose = (purpose) => {
 }
 
 .empty-state::before {
-  content: "📄";
+  content: "";
   display: block;
-  font-size: 24px;
-  margin-bottom: 0.5rem;
-  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.empty-illustration {
+  font-size: 1.55rem;
+  display: inline-block;
+  margin-bottom: 0.42rem;
+  filter: drop-shadow(0 2px 6px rgba(3, 12, 8, 0.22));
 }
 
 .empty-state p {

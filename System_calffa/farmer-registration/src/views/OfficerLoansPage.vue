@@ -1,35 +1,31 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">💰 {{ pageTitle }}</h1>
+      <h1 class="page-title">{{ pageTitle }}</h1>
       <p class="page-subtitle">Apply for and manage your loan applications</p>
     </div>
 
     <!-- Loan Statistics -->
     <div class="stats-grid">
       <div class="stat-card pending">
-        <div class="stat-icon">⏳</div>
         <div class="stat-content">
           <div class="stat-value">{{ pendingLoans.length }}</div>
           <div class="stat-label">Pending</div>
         </div>
       </div>
       <div class="stat-card approved">
-        <div class="stat-icon">✓</div>
         <div class="stat-content">
           <div class="stat-value">{{ approvedLoans.length }}</div>
           <div class="stat-label">Approved</div>
         </div>
       </div>
       <div class="stat-card active">
-        <div class="stat-icon">💳</div>
         <div class="stat-content">
           <div class="stat-value">{{ activeLoans.length }}</div>
           <div class="stat-label">Active</div>
         </div>
       </div>
       <div class="stat-card rejected">
-        <div class="stat-icon">✗</div>
         <div class="stat-content">
           <div class="stat-value">{{ rejectedLoans.length }}</div>
           <div class="stat-label">Rejected</div>
@@ -385,7 +381,7 @@ const filteredLoans = computed(() => {
 const pageTitle = computed(() => {
   const role = authStore.currentUser?.role
   if (role === 'treasurer') return 'My Loans (Treasurer)'
-  if (role === 'president') return 'My Loans (President)'
+  if (role === 'president') return 'My Loans'
   return 'My Loans'
 })
 
@@ -646,18 +642,26 @@ onMounted(() => {
 
 .page-header {
   margin-bottom: 2rem;
+  padding: 1.35rem 1.25rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(14, 56, 40, 0.9), rgba(18, 76, 53, 0.86));
+  border: 1px solid rgba(134, 239, 172, 0.22);
+  box-shadow: 0 12px 22px rgba(3, 14, 10, 0.22);
 }
 
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
+  color: #ecfdf5;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
 }
 
 .page-subtitle {
-  color: #64748b;
+  color: rgba(220, 252, 231, 0.88);
   font-size: 1rem;
+  margin: 0;
+  line-height: 1.45;
 }
 
 /* Stats Grid */
@@ -669,13 +673,24 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #0f2a1f, #123327);
+  border-radius: 16px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
   border-left: 4px solid #cbd5e1;
+  min-height: 110px;
+  transition: transform 180ms ease, box-shadow 200ms ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
 }
 
 .stat-card.pending {
@@ -695,18 +710,57 @@ onMounted(() => {
 }
 
 .stat-icon {
-  font-size: 2rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.55rem;
+  flex-shrink: 0;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.stat-card.pending .stat-icon {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.stat-card.approved .stat-icon {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.stat-card.active .stat-icon {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.stat-card.rejected .stat-icon {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  align-items: center;
 }
 
 .stat-value {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1e293b;
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
 }
 
 .stat-label {
-  color: #64748b;
-  font-size: 0.875rem;
+  color: #dcfce7;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 /* Content Grid */
@@ -718,10 +772,11 @@ onMounted(() => {
 
 /* Card */
 .card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #102a1f, #153629);
+  border-radius: 14px;
+  padding: 1.6rem;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(167, 243, 208, 0.24);
   height: fit-content;
 }
 
@@ -730,9 +785,9 @@ onMounted(() => {
 }
 
 .card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
   margin-bottom: 1.5rem;
 }
 
@@ -740,7 +795,7 @@ onMounted(() => {
 .loan-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.1rem;
 }
 
 .form-group {
@@ -750,34 +805,37 @@ onMounted(() => {
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #475569;
-  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ecfdf5;
+  font-size: 0.96rem;
 }
 
 .form-group input,
 .form-group select {
-  padding: 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 0.92rem 0.95rem;
+  border: 1px solid rgba(167, 243, 208, 0.35);
+  border-radius: 10px;
+  font-size: 1.02rem;
+  color: #ffffff;
   transition: all 0.2s;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: rgba(134, 239, 172, 0.85);
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.18);
 }
 
 .submit-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.95rem 1.2rem;
   background: #10b981;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -795,30 +853,32 @@ onMounted(() => {
 .help-text {
   display: block;
   margin-top: 0.5rem;
-  color: #64748b;
-  font-size: 0.85rem;
+  color: #d1fae5;
+  font-size: 0.92rem;
+  font-weight: 600;
 }
 
 .calculation-text {
   display: block;
   margin-top: 0.5rem;
-  color: #059669;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: #bbf7d0;
+  font-size: 0.96rem;
+  font-weight: 700;
 }
 
 /* Loan Info Box */
 .loan-info-box {
-  background-color: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: 8px;
-  padding: 1rem;
+  background-color: rgba(6, 78, 59, 0.34);
+  border: 1px solid rgba(45, 212, 191, 0.45);
+  border-radius: 12px;
+  padding: 1.05rem 1.1rem;
   margin-bottom: 1rem;
 }
 
 .loan-info-box h4 {
-  color: #0369a1;
-  font-size: 1rem;
+  color: #ecfeff;
+  font-size: 1.05rem;
+  font-weight: 800;
   margin-bottom: 0.75rem;
 }
 
@@ -829,55 +889,65 @@ onMounted(() => {
 }
 
 .loan-info-box li {
-  color: #0c4a6e;
-  font-size: 0.9rem;
+  color: #e6fffa;
+  font-size: 0.98rem;
+  font-weight: 600;
   padding: 0.25rem 0;
 }
 
 /* Alert */
 .alert {
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1rem 1.05rem;
+  border-radius: 10px;
   margin-bottom: 1.5rem;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
+  font-weight: 700;
 }
 
 .alert-info {
-  background: #dbeafe;
-  border-left: 4px solid #3b82f6;
-  color: #1e40af;
+  background: rgba(30, 64, 175, 0.28);
+  border-left: 4px solid #60a5fa;
+  color: #dbeafe;
 }
 
 .alert-warning {
-  background: #fed7aa;
-  border-left: 4px solid #f97316;
-  color: #92400e;
+  background: rgba(194, 65, 12, 0.26);
+  border-left: 4px solid #fb923c;
+  color: #ffedd5;
 }
 
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 1px solid rgba(134, 239, 172, 0.24);
   overflow-x: auto;
+  padding-bottom: 0.45rem;
 }
 
 .tab {
-  padding: 0.75rem 1rem;
-  background: none;
-  border: none;
+  padding: 0.55rem 0.95rem;
+  background: rgba(15, 37, 28, 0.72);
+  border: 1px solid rgba(134, 239, 172, 0.24);
+  border-radius: 999px;
   cursor: pointer;
-  color: #64748b;
-  font-weight: 500;
-  border-bottom: 2px solid transparent;
+  color: #dcfce7;
+  font-weight: 700;
   transition: all 0.2s;
   white-space: nowrap;
 }
 
+.tab:hover {
+  background: rgba(22, 163, 74, 0.25);
+  transform: translateY(-1px);
+}
+
 .tab.active {
-  color: #10b981;
-  border-bottom-color: #10b981;
+  color: #052e16;
+  background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
+  border-color: rgba(187, 247, 208, 0.9);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.38);
 }
 
 /* Loans List */
@@ -888,16 +958,17 @@ onMounted(() => {
 }
 
 .loan-item {
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(167, 243, 208, 0.26);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(15, 42, 31, 0.9), rgba(16, 55, 39, 0.82));
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .loan-item:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: rgba(134, 239, 172, 0.5);
+  box-shadow: 0 10px 16px rgba(3, 13, 9, 0.25);
 }
 
 .loan-header {
@@ -909,7 +980,7 @@ onMounted(() => {
 
 .loan-type {
   font-weight: 600;
-  color: #1e293b;
+  color: #ecfdf5;
 }
 
 .status-badge {
@@ -949,22 +1020,25 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .amount {
-  font-weight: 700;
-  color: #10b981;
+  font-weight: 800;
+  color: #bbf7d0;
 }
 
 .date {
-  color: #64748b;
+  color: #d1fae5;
+  font-weight: 600;
 }
 
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #94a3b8;
+  color: #d1fae5;
+  font-size: 0.98rem;
+  font-weight: 600;
 }
 
 /* Modal */

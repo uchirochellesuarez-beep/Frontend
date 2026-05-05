@@ -16,28 +16,24 @@
     <!-- Stats Overview (Hidden for Admin-Only) -->
     <div v-if="!isAdminOnly" class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">🚜</div>
         <div class="stat-content">
           <div class="stat-label">Total Machinery</div>
           <div class="stat-value">{{ totalMachinery }}</div>
         </div>
       </div>
       <div class="stat-card stat-success">
-        <div class="stat-icon">✅</div>
         <div class="stat-content">
           <div class="stat-label">Available</div>
           <div class="stat-value">{{ availableMachinery }}</div>
         </div>
       </div>
       <div class="stat-card stat-pending">
-        <div class="stat-icon">⏳</div>
         <div class="stat-content">
           <div class="stat-label">Pending Bookings</div>
           <div class="stat-value">{{ pendingBookingsCount }}</div>
         </div>
       </div>
       <div class="stat-card stat-info">
-        <div class="stat-icon">💰</div>
         <div class="stat-content">
           <div class="stat-label">Total Revenue</div>
           <div class="stat-value">₱{{ formatNumber(totalRevenue) }}</div>
@@ -157,7 +153,7 @@
 
     <!-- President's Machinery Inventory Section -->
     <div v-if="isPresidentRole" class="section">
-      <h2 class="section-title">🚜 Machinery Inventory ({{ barangays.find(b => b.id === userBarangayId)?.name || 'Your Barangay' }})</h2>
+      <h2 class="section-title">Machinery Inventory ({{ barangays.find(b => b.id === userBarangayId)?.name || 'Your Barangay' }})</h2>
       
       <div class="inventory-actions standalone-actions">
         <button @click="showAddMachineryModal = true" class="btn-success">
@@ -221,7 +217,7 @@
 
     <!-- All Bookings Table -->
     <div v-if="!isAdminOnly" class="section">
-      <h2 class="section-title">📋 Machinery Bookings</h2>
+      <h2 class="section-title">Machinery Bookings</h2>
       
       <!-- Filters -->
       <div class="filters-section">
@@ -301,8 +297,11 @@
                 </span>
               </td>
               <td>
-                <button @click="viewBooking(booking)" class="btn-icon-small" title="View Details">
-                  👁️
+                <button @click="viewBooking(booking)" class="btn-icon-small booking-view-btn" title="View Details" aria-label="View booking details">
+                  <svg class="booking-view-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"></path>
+                    <circle cx="12" cy="12" r="2.7"></circle>
+                  </svg>
                 </button>
               </td>
             </tr>
@@ -2132,6 +2131,25 @@ export default {
 .btn-icon-small.btn-danger:hover,
 .btn-sm.btn-danger:hover {
   background: rgba(248, 113, 113, 0.2);
+}
+
+.booking-view-btn {
+  background: rgba(96, 165, 250, 0.16);
+  border-color: rgba(147, 197, 253, 0.42);
+  color: #dbeafe;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.booking-view-btn:hover {
+  background: rgba(96, 165, 250, 0.26);
+  border-color: rgba(147, 197, 253, 0.62);
+  box-shadow: 0 8px 14px rgba(30, 64, 175, 0.24);
+}
+
+.booking-view-icon {
+  width: 17px;
+  height: 17px;
+  display: block;
 }
 
 .btn-primary,

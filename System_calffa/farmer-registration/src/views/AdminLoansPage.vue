@@ -170,10 +170,10 @@
                   <div class="payer-reason">
                     <span class="credit-score">Credit Score: <strong>{{ getPayerAssessment(loan.farmer_id).assessment.creditScore }}/100</strong></span>
                     <div class="score-factors">
-                      <span title="Payment History (40% weight)">📋 {{ getPayerAssessment(loan.farmer_id).scoreComponents.paymentHistoryScore }}%</span>
-                      <span title="Default History (30% weight)">🛡️ {{ getPayerAssessment(loan.farmer_id).scoreComponents.defaultHistoryScore }}%</span>
-                      <span title="Loan Volume (15% weight)">📊 {{ getPayerAssessment(loan.farmer_id).scoreComponents.loanVolumeScore }}%</span>
-                      <span title="Activity Recency (15% weight)">🕐 {{ getPayerAssessment(loan.farmer_id).scoreComponents.activityRecencyScore }}%</span>
+                      <span title="Payment History (40% weight)">{{ getPayerAssessment(loan.farmer_id).scoreComponents.paymentHistoryScore }}%</span>
+                      <span title="Default History (30% weight)">{{ getPayerAssessment(loan.farmer_id).scoreComponents.defaultHistoryScore }}%</span>
+                      <span title="Loan Volume (15% weight)">{{ getPayerAssessment(loan.farmer_id).scoreComponents.loanVolumeScore }}%</span>
+                      <span title="Activity Recency (15% weight)">{{ getPayerAssessment(loan.farmer_id).scoreComponents.activityRecencyScore }}%</span>
                     </div>
                     <span class="payer-desc">{{ getPayerAssessment(loan.farmer_id).assessment.description }}</span>
                   </div>

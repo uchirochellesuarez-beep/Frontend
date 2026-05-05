@@ -29,12 +29,15 @@
         <span>{{ filteredAnnouncements.length }} {{ filteredAnnouncements.length === 1 ? 'item' : 'items' }}</span>
       </div>
       <div class="section-tools">
-        <input
-          v-model.trim="searchTitle"
-          type="text"
-          class="search-input"
-          placeholder="Search by title..."
-        />
+        <div class="search-input-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            v-model.trim="searchTitle"
+            type="text"
+            class="search-input"
+            placeholder="Search by title..."
+          />
+        </div>
         <select v-model="sortOrder" class="sort-select">
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
@@ -665,6 +668,30 @@ h1 { margin: 0; font-size: clamp(2rem, 2.2vw, 2.9rem); }
 .search-input {
   flex: 1;
   min-width: 180px;
+  padding-left: 46px;
+}
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+.search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #065f46;
+  background: linear-gradient(135deg, rgba(209, 250, 229, 0.95), rgba(167, 243, 208, 0.9));
+  border: 1px solid rgba(16, 185, 129, 0.32);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.18);
+  pointer-events: none;
 }
 .sort-select {
   min-width: 130px;

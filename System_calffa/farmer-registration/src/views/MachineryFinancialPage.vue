@@ -69,9 +69,8 @@
       <!-- TAB 1: EXPENSES MANAGEMENT -->
       <div v-if="activeTab === 'expenses'" class="tab-content">
         <div class="section-header">
-          <h2>📝 Expense Management</h2>
+          <h2>Expense Management</h2>
           <button v-if="canManage" @click="showExpenseForm = true" class="btn-primary">+ Record Expense</button>
-          <span v-else class="view-only-badge">👁️ View Only</span>
         </div>
 
         <!-- Expense Filters -->
@@ -93,8 +92,10 @@
             <label class="filter-label">End Date:</label>
             <input v-model="filters.end_date" type="date" class="filter-input" />
           </div>
-          <button @click="loadExpenses" class="btn-secondary">Filter</button>
-          <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          <div class="filter-actions">
+            <button @click="loadExpenses" class="btn-secondary">Filter</button>
+            <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          </div>
         </div>
 
         <!-- Expenses Table -->
@@ -171,8 +172,10 @@
             <label class="filter-label">End Date:</label>
             <input v-model="filters.end_date" type="date" class="filter-input" />
           </div>
-          <button @click="loadIncome" class="btn-secondary">Filter</button>
-          <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          <div class="filter-actions">
+            <button @click="loadIncome" class="btn-secondary">Filter</button>
+            <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          </div>
         </div>
 
         <p class="info-text">💡 Income is automatically generated from completed machinery bookings with partial or full payments.</p>
@@ -216,27 +219,27 @@
       <!-- TAB 3: ACCOUNTS RECEIVABLE & COLLECTIONS -->
       <div v-if="activeTab === 'ar'" class="tab-content">
         <div class="section-header">
-          <h2>📋 Accounts Receivable & Collections</h2>
+          <h2>Accounts Receivable & Collections</h2>
         </div>
 
         <!-- A/R Summary Cards -->
         <div class="summary-container">
           <div class="summary-card ar-card">
-            <div class="card-icon">📊</div>
+            <div class="card-icon icon-receivables">📈</div>
             <div class="card-content">
               <span class="card-label">Total Receivables</span>
               <span class="card-amount">₱{{ formatNumber(collectionsSummary.total_receivables) }}</span>
             </div>
           </div>
           <div class="summary-card collected-card">
-            <div class="card-icon">💰</div>
+            <div class="card-icon icon-collected">💵</div>
             <div class="card-content">
               <span class="card-label">Total Collected</span>
               <span class="card-amount">₱{{ formatNumber(collectionsSummary.total_collected) }}</span>
             </div>
           </div>
           <div class="summary-card balance-card">
-            <div class="card-icon">⚠️</div>
+            <div class="card-icon icon-balance">⚠️</div>
             <div class="card-content">
               <span class="card-label">Outstanding Balance</span>
               <span class="card-amount">₱{{ formatNumber(collectionsSummary.total_balance) }}</span>
@@ -255,15 +258,16 @@
               </option>
             </select>
           </div>
-          <button @click="loadARData" class="btn-secondary">Filter</button>
-          <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          <div class="filter-actions">
+            <button @click="loadARData" class="btn-secondary">Filter</button>
+            <button @click="clearFilters" class="btn-secondary-outline">Clear</button>
+          </div>
         </div>
 
         <!-- A/R List -->
         <div class="ar-section">
           <div class="section-subheader">
             <h3>📑 List of Collectibles (Accounts Receivable)</h3>
-            <span v-if="isViewOnly" class="view-only-badge">👁️ View Only</span>
           </div>
           <div class="table-container">
             <table class="ar-table">
@@ -1305,11 +1309,11 @@ if (!hasAccess.value) {
 // Others (Treasurer, President, Auditor): See all tabs
 const activeTab = ref('expenses');
 const allTabs = [
-  { id: 'expenses', label: '📝 Expenses' },
-  { id: 'income', label: '💹 Income' },
-  { id: 'ar', label: '📋 A/R & Collections' },
-  { id: 'profit', label: '📊 Profit Computation' },
-  { id: 'reports', label: '📋 Reports' }
+  { id: 'expenses', label: 'Expenses' },
+  { id: 'income', label: 'Income' },
+  { id: 'ar', label: 'A/R & Collections' },
+  { id: 'profit', label: 'Profit Computation' },
+  { id: 'reports', label: 'Reports' }
 ];
 
 const tabs = computed(() => {
@@ -2677,35 +2681,55 @@ onBeforeUnmount(() => {
 
 .tabs-container {
   display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 26px;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .tab {
-  padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 26px;
+  border: 1px solid rgba(134, 239, 172, 0.35);
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.95), rgba(220, 252, 231, 0.9));
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-main);
-  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #14532d;
+  border-radius: 16px;
   transition: all 0.2s ease;
   backdrop-filter: blur(10px);
+  min-height: 54px;
+  flex: 1 1 0;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(3, 16, 10, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(220, 252, 231, 1), rgba(187, 247, 208, 0.96));
+  border-color: rgba(22, 163, 74, 0.45);
   transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(3, 16, 10, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .tab.active {
-  background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(22, 163, 74, 0.16));
-  border-color: rgba(74, 222, 128, 0.4);
-  color: #dcfce7;
-  box-shadow: inset 0 0 12px rgba(74, 222, 128, 0.1);
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 60%, #166534 100%);
+  border-color: rgba(167, 243, 208, 0.65);
+  color: #f0fdf4;
+  box-shadow: 0 12px 22px rgba(6, 78, 35, 0.35), inset 0 1px 0 rgba(220, 252, 231, 0.22);
+}
+
+@media (max-width: 768px) {
+  .tabs-container {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 13px 20px;
+    font-size: 16px;
+    min-height: 48px;
+    flex: 1 1 calc(50% - 10px);
+  }
 }
 
 .tab-content {
@@ -2759,9 +2783,14 @@ onBeforeUnmount(() => {
 
 .filters-section {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 24px;
   flex-wrap: wrap;
+  align-items: end;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(187, 247, 208, 0.22);
+  background: linear-gradient(135deg, rgba(39, 58, 45, 0.72), rgba(26, 41, 32, 0.7));
 }
 
 .filter-input,
@@ -2787,15 +2816,24 @@ onBeforeUnmount(() => {
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  min-width: 190px;
+  flex: 1;
 }
 
 .filter-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  color: var(--text-soft);
+  color: rgba(220, 238, 211, 0.9);
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.75px;
+}
+
+.filter-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-self: end;
 }
 
 .table-container {
@@ -2920,6 +2958,112 @@ onBeforeUnmount(() => {
   border: 1px solid rgba(248, 113, 113, 0.2);
   padding: 12px;
   border-radius: 12px;
+}
+
+/* A/R summary cards: equal-size responsive layout */
+.summary-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.summary-container > .summary-card {
+  min-height: 148px;
+  height: 100%;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 11px;
+  border-radius: 16px;
+  transition: transform 220ms ease, box-shadow 240ms ease, border-color 220ms ease;
+}
+
+.summary-container > .summary-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(187, 247, 208, 0.42);
+  box-shadow: 0 16px 28px rgba(2, 10, 6, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.summary-container > .summary-card .card-content {
+  align-items: center;
+}
+
+.summary-container > .summary-card .card-label {
+  color: #f1fdf5;
+  font-size: 12.5px;
+  font-weight: 900;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.summary-container > .summary-card .card-amount {
+  font-size: clamp(2.1rem, 3.7vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.summary-container > .summary-card .card-icon {
+  width: 52px;
+  height: 52px;
+  font-size: 30px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 220ms ease, box-shadow 240ms ease, filter 220ms ease;
+}
+
+.summary-container > .summary-card:hover .card-icon {
+  transform: translateY(-1px) scale(1.06);
+  filter: saturate(1.08);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.summary-container .ar-card .card-icon.icon-receivables {
+  background: linear-gradient(135deg, rgba(134, 239, 172, 0.42), rgba(34, 197, 94, 0.28));
+}
+
+.summary-container .collected-card .card-icon.icon-collected {
+  background: linear-gradient(135deg, rgba(187, 247, 208, 0.4), rgba(16, 185, 129, 0.28));
+}
+
+.summary-container .balance-card .card-icon.icon-balance {
+  background: linear-gradient(135deg, rgba(254, 202, 202, 0.75), rgba(248, 113, 113, 0.55));
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #7f1d1d;
+  font-size: 32px;
+  box-shadow: 0 12px 22px rgba(127, 29, 29, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.summary-container .ar-card .card-amount {
+  color: #86efac;
+}
+
+.summary-container .collected-card .card-amount {
+  color: #bbf7d0;
+}
+
+.summary-container .balance-card .card-amount {
+  color: #fca5a5;
+}
+
+@media (max-width: 980px) {
+  .summary-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .summary-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .btn-primary-small {
@@ -4553,14 +4697,30 @@ onBeforeUnmount(() => {
 
 /* View Only Badge */
 .view-only-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
   color: white;
   padding: 6px 14px;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 700;
   margin-left: 12px;
+  border: 1px solid rgba(187, 247, 208, 0.4);
+  box-shadow: 0 6px 12px rgba(20, 83, 45, 0.25);
+}
+
+.view-only-badge .badge-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 12px;
+  line-height: 1;
 }
 
 /* Barangay Context Styles */

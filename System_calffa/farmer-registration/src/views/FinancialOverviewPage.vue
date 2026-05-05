@@ -17,28 +17,24 @@
     <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">💰</div>
         <div class="stat-info">
           <div class="stat-label">Total Loans Disbursed</div>
           <div class="stat-value income">₱{{ totalLoansDisbursed.toLocaleString() }}</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">💵</div>
         <div class="stat-info">
           <div class="stat-label">Payments Received</div>
           <div class="stat-value savings">₱{{ totalPaymentsReceived.toLocaleString() }}</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">💳</div>
         <div class="stat-info">
           <div class="stat-label">Outstanding Balance</div>
           <div class="stat-value expense">₱{{ outstandingBalance.toLocaleString() }}</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">📊</div>
         <div class="stat-info">
           <div class="stat-label">Active Loans</div>
           <div class="stat-value">{{ activeLoansCount }}</div>
@@ -750,6 +746,7 @@ onMounted(async () => {
   padding: 18px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
@@ -773,6 +770,8 @@ onMounted(async () => {
   gap: 8px;
   flex: 1;
   min-width: 0;
+  justify-items: center;
+  text-align: center;
 }
 
 .stat-label {

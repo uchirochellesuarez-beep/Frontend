@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">🔍 Pagsusuri ng Kita ng mga Magsasaka</h1>
+      <h1 class="page-title">Pagsusuri ng Kita ng mga Magsasaka</h1>
       <p class="page-subtitle">Suriin at ipahayag kung ang nasiyang talaan ay tunay at karapat-dapat</p>
     </div>
 

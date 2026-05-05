@@ -1379,18 +1379,19 @@ const getTimeSinceReceived = (dateStr) => {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 1.3rem 1.35rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 .record-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 .record-date {
-  font-weight: 600;
-  color: #374151;
+  font-weight: 700;
+  color: #ecfdf5;
+  font-size: 0.98rem;
 }
 .record-season {
   background: #f0fdf4;
@@ -1403,33 +1404,35 @@ const getTimeSinceReceived = (dateStr) => {
 .record-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.65rem 1rem;
+  margin-bottom: 0.85rem;
 }
 .record-detail {
-  font-size: 0.85rem;
-  color: #4b5563;
+  font-size: 0.95rem;
+  color: #dcfce7;
+  font-weight: 600;
 }
 .detail-label {
-  font-weight: 600;
+  font-weight: 800;
   margin-right: 0.25rem;
+  color: #ffffff;
 }
 .record-financials {
   display: flex;
   gap: 1rem;
-  padding-top: 0.75rem;
+  padding-top: 0.85rem;
   border-top: 1px solid #e5e7eb;
 }
 .financial-item {
   display: flex;
   gap: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 }
-.financial-item.income { color: #2563eb; }
-.financial-item.expense { color: #dc2626; }
+.financial-item.income { color: #60a5fa; }
+.financial-item.expense { color: #f87171; }
 .financial-item.profit { color: #166534; }
-.financial-item.loss { color: #dc2626; }
+.financial-item.loss { color: #f87171; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -1466,20 +1469,24 @@ const getTimeSinceReceived = (dateStr) => {
 
 /* View Button */
 .view-btn {
-  padding: 0.35rem 0.85rem;
-  background: linear-gradient(135deg, #166534, #16a34a);
+  padding: 0.42rem 0.92rem;
+  background: linear-gradient(135deg, #15803d, #16a34a);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 700;
   transition: all 0.2s;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(134, 239, 172, 0.45);
 }
 .view-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.35);
+  box-shadow: 0 6px 12px rgba(22, 101, 52, 0.35);
 }
 .record-actions {
   display: flex;
@@ -1487,21 +1494,37 @@ const getTimeSinceReceived = (dateStr) => {
   align-items: center;
 }
 .edit-btn {
-  padding: 0.35rem 0.85rem;
-  background: linear-gradient(135deg, #b45309, #d97706);
+  padding: 0.42rem 0.92rem;
+  background: linear-gradient(135deg, #a16207, #d97706);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 700;
   transition: all 0.2s;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(252, 211, 77, 0.45);
 }
 .edit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.35);
+  box-shadow: 0 6px 12px rgba(180, 83, 9, 0.35);
 }
+
+/* Strong readability overrides for history cards in dark theme */
+.page-container .record-card .record-date,
+.page-container .record-card .record-detail,
+.page-container .record-card .detail-label {
+  color: #f0fdf4 !important;
+}
+
+.page-container .record-card .financial-item.income { color: #93c5fd !important; }
+.page-container .record-card .financial-item.expense { color: #fca5a5 !important; }
+.page-container .record-card .financial-item.profit { color: #86efac !important; }
+.page-container .record-card .financial-item.loss { color: #fca5a5 !important; }
 .edit-banner {
   display: flex;
   justify-content: space-between;

@@ -15,6 +15,7 @@
 
     <!-- Search Bar -->
     <div class="search-container">
+      <span class="search-icon" aria-hidden="true">🔎</span>
       <input
         v-model="searchQuery"
         type="text"
@@ -411,17 +412,38 @@ const approveAllPending = async () => {
 
 .search-container {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .search-input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px 16px 12px 54px;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 14px;
   color: #1f2937;
   background: #ffffff;
   transition: all 0.2s;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #065f46;
+  background: linear-gradient(135deg, rgba(209, 250, 229, 0.95), rgba(167, 243, 208, 0.9));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.18);
+  pointer-events: none;
 }
 
 .search-input::placeholder {

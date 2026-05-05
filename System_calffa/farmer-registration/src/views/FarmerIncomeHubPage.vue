@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">📊 Farmer Income Records</h1>
+      <h1 class="page-title">Farmer Income Records</h1>
       <p class="page-subtitle">Manage farmer income records and distributions</p>
     </div>
 
@@ -14,7 +14,7 @@
           :class="{ active: activeTab === 'verify' }"
           @click="activeTab = 'verify'"
         >
-          🔍 Verify Income
+          <span>Verify Income</span>
           <span v-if="pendingCount !== null" class="tab-badge">{{ pendingCount }}</span>
         </button>
         <button 
@@ -22,7 +22,7 @@
           :class="{ active: activeTab === 'eligible' }"
           @click="activeTab = 'eligible'"
         >
-          ✅ Eligible Records
+          <span>Eligible Records</span>
           <span v-if="eligibleCount !== null" class="tab-badge">{{ eligibleCount }}</span>
         </button>
       </div>
@@ -34,7 +34,7 @@
           :class="{ active: activeTab === 'eligible' }"
           @click="activeTab = 'eligible'"
         >
-          ✅ Eligible Records
+          <span>Eligible Records</span>
           <span v-if="eligibleCount !== null" class="tab-badge">{{ eligibleCount }}</span>
         </button>
       </div>
@@ -46,7 +46,7 @@
           :class="{ active: activeTab === 'distribution' }"
           @click="activeTab = 'distribution'"
         >
-          🌾 Distribution Management
+          <span>Distribution Management</span>
         </button>
       </div>
     </div>
@@ -97,8 +97,6 @@ onMounted(() => {
     activeTab.value = 'distribution'
   }
 
-  /* Finishing polish */
-  
   // Fetch stats for badges
   fetchStats()
 })
@@ -216,7 +214,7 @@ const fetchStats = async () => {
 .page-header {
   margin-bottom: 32px;
   padding: 28px 32px;
-  text-align: center;
+  text-align: left;
   background: linear-gradient(145deg, rgba(18, 43, 29, 0.96), rgba(14, 33, 23, 0.95));
   border: 1px solid rgba(126, 184, 145, 0.22);
   border-radius: 26px;
@@ -224,15 +222,22 @@ const fetchStats = async () => {
 }
 
 .page-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: #4ade80;
   font-size: clamp(2rem, 2.8vw, 2.6rem);
   font-weight: 900;
   letter-spacing: -0.04em;
+  margin: 0 0 10px;
 }
 
 .page-subtitle {
   color: rgba(220, 252, 231, 0.78);
   font-size: 1.05rem;
+  margin: 0;
+  max-width: 560px;
+  line-height: 1.45;
 }
 
 .tabs-container {
@@ -250,34 +255,40 @@ const fetchStats = async () => {
   display: flex;
   gap: 12px;
   border-bottom: none;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: stretch;
+  width: 100%;
 }
 
 .tab-btn {
-  padding: 14px 26px;
-  background: linear-gradient(145deg, rgba(111, 85, 37, 0.78), rgba(91, 117, 70, 0.82));
-  border: 1px solid rgba(239, 213, 144, 0.26);
-  border-radius: 18px;
-  color: #f3f4f6;
-  font-size: 1rem;
-  font-weight: 700;
-  box-shadow: 0 8px 18px rgba(20, 25, 20, 0.18);
+  padding: 14px 24px;
+  background: linear-gradient(135deg, rgba(156, 107, 40, 0.9), rgba(108, 149, 94, 0.9));
+  border: 1px solid rgba(255, 232, 179, 0.36);
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(20, 25, 20, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   bottom: 0;
+  min-height: 52px;
+  letter-spacing: 0.01em;
+  flex: 1 1 0;
+  justify-content: center;
 }
 
 .tab-btn:hover {
   color: #ffffff;
-  transform: translateY(-1px);
-  filter: brightness(1.04);
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 24px rgba(20, 25, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .tab-btn.active {
-  color: #ffffff;
+  color: #052e16;
   border-bottom-color: transparent;
-  background: linear-gradient(145deg, rgba(125, 92, 40, 0.92), rgba(90, 143, 96, 0.9));
-  border-color: rgba(255, 235, 179, 0.36);
-  box-shadow: 0 10px 24px rgba(18, 24, 18, 0.26);
+  background: linear-gradient(135deg, #bbf7d0 0%, #86efac 55%, #4ade80 100%);
+  border-color: rgba(220, 252, 231, 0.9);
+  box-shadow: 0 12px 24px rgba(18, 24, 18, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .tab-badge {
@@ -288,6 +299,7 @@ const fetchStats = async () => {
   font-size: 0.82em;
   font-weight: 800;
 }
+
 
 .tab-content {
   margin-top: 18px;
@@ -303,15 +315,35 @@ const fetchStats = async () => {
 
 .empty-state p {
   color: rgba(220, 252, 231, 0.78);
+  margin: 0;
+  line-height: 1.5;
+  font-size: 1.04rem;
 }
 .empty-icon {
   font-size: 4em;
   margin-bottom: 20px;
 }
 
-.empty-state p {
-  font-size: 1.2em;
-  color: #7f8c8d;
-  margin: 0;
+@media (max-width: 768px) {
+  .page-header {
+    text-align: center;
+    padding: 22px 20px;
+  }
+
+  .page-title {
+    justify-content: center;
+  }
+
+  .page-subtitle {
+    margin: 0 auto;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1 1 calc(50% - 8px);
+  }
 }
 </style>
