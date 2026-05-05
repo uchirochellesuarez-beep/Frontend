@@ -48,7 +48,6 @@
                   class="form-input date-input"
                   :max="getMaxDateOfBirth()"
                 />
-                <span class="date-icon">📅</span>
               </div>
             </div>
           </div>
@@ -138,7 +137,7 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="form-group password-group">
               <label class="form-label">{{ ui.password }}</label>
               <div class="password-input-wrapper">
                 <input
@@ -163,7 +162,7 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="form-group confirm-password-group">
               <label class="form-label">{{ ui.confirmPassword }}</label>
               <div class="password-input-wrapper">
                 <input
@@ -591,10 +590,11 @@ const register = async () => {
 
 .signup-card {
   position: relative;
-  width: min(100%, 980px);
-  height: calc(100dvh - 0.9rem);
+  width: min(100%, 900px);
+  height: auto;
   max-height: calc(100dvh - 0.9rem);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 0.72rem 0.82rem;
   border-radius: 28px;
   border: 1px solid rgba(116, 150, 128, 0.38) !important;
@@ -660,11 +660,11 @@ const register = async () => {
   gap: 0.18rem;
   padding: 0.24rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 220, 150, 0.46);
-  background: rgba(30, 12, 2, 0.36);
+  border: 1px solid #0d3f28;
+  background: rgba(18, 58, 38, 0.72);
   box-shadow:
     0 8px 28px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   animation: toggleIn 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -676,31 +676,26 @@ const register = async () => {
   font-family: inherit;
   font-weight: 600;
   font-size: 0.73rem;
-  letter-spacing: 0.015em;
   border: 1px solid transparent;
   background: transparent;
-  color: rgba(255, 240, 200, 0.88);
+  color: rgba(196, 230, 205, 0.95);
   cursor: pointer;
   transition: background 0.26s, color 0.2s, box-shadow 0.26s, border-color 0.2s;
 }
 
 .lang-btn:hover {
   color: #fff;
-  background: rgba(255, 200, 100, 0.18);
-  border-color: rgba(255, 200, 100, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .lang-btn.active {
-  background: linear-gradient(135deg,
-    rgba(220, 72, 10, 0.92),
-    rgba(249, 155, 30, 0.88),
-    rgba(252, 211, 40, 0.82));
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.55);
+  background: #fff;
+  color: #0f2e1f;
+  border-color: rgba(13, 63, 40, 0.35);
   box-shadow:
-    0 0 24px rgba(234, 100, 20, 0.6),
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    0 2px 8px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .signup-header {
@@ -724,11 +719,11 @@ const register = async () => {
 .registration-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.28rem 0.52rem;
+  gap: 0.42rem 0.64rem;
   align-content: start;
-  flex: 1;
+  flex: 0 1 auto;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
   padding-right: 0.35rem;
 }
 
@@ -744,6 +739,11 @@ const register = async () => {
   gap: 0.2rem;
 }
 
+.password-group,
+.confirm-password-group {
+  grid-column: 2 / 3;
+}
+
 .form-label {
   color: var(--text-soft);
   font-weight: 600;
@@ -752,6 +752,7 @@ const register = async () => {
 }
 
 .form-input {
+  width: 100%;
   border: 1px solid var(--field-border);
   background: var(--field-bg);
   color: var(--text-soft);
@@ -838,7 +839,7 @@ const register = async () => {
 .form-actions {
   display: flex;
   justify-content: center;
-  margin-top: 0;
+  margin-top: 0.24rem;
   margin-bottom: 0.08rem;
   padding-right: 0;
   grid-column: 2 / 3;
@@ -1061,14 +1062,19 @@ const register = async () => {
 
 @media (min-width: 700px) {
   .signup-card {
-    width: min(100%, 980px);
-    height: calc(100dvh - 0.9rem);
+    width: min(100%, 900px);
+    height: auto;
     max-height: calc(100dvh - 0.9rem);
     padding: 0.72rem 0.82rem;
   }
 }
 
 @media (max-width: 900px) {
+  .password-group,
+  .confirm-password-group {
+    grid-column: auto;
+  }
+
   .signup-card {
     width: min(100%, 560px);
     height: auto;

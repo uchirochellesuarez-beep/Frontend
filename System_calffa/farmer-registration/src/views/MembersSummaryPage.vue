@@ -9,17 +9,6 @@
         </div>
         <div class="flex items-center gap-3">
           <button
-            v-if="!selectedFarmer"
-            type="button"
-            @click="router.push('/farmers-table')"
-            class="back-to-members-btn"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="back-btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Members Dashboard
-          </button>
-          <button
             v-if="selectedFarmer"
             type="button"
             @click="resetSelection"

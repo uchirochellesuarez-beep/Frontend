@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">🌾 Talaan ng Kita at Pamamahagi ng Tulong</h1>
+      <h1 class="page-title">Talaan ng Kita at Pamamahagi ng Tulong</h1>
       <p class="page-subtitle">Tuklasin ang mga inaprubang talaan at pamahalaan ang distribusyon ng tulong sa pagsasaka</p>
     </div>
 
@@ -841,7 +841,7 @@ onMounted(() => {
 .section-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2d5016;
+  color: #ffffff !important;
   margin: 0 0 20px 0;
 }
 

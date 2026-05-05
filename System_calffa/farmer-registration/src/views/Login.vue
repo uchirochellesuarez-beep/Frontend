@@ -446,8 +446,8 @@ const goToSignUp = () => {
 }
 
 .login-card {
-  width: min(100%, 520px);
-  max-width: 520px;
+  width: min(100%, 470px);
+  max-width: 470px;
   min-height: 0;
   padding: 0.76rem 0.82rem;
   display: flex;
@@ -523,6 +523,7 @@ const goToSignUp = () => {
   flex-direction: column;
   flex: 1;
   gap: 0.42rem;
+  width: 100%;
 }
 
 .form-group {
@@ -554,6 +555,7 @@ const goToSignUp = () => {
 }
 
 .form-input {
+  width: 100%;
   border: 1px solid var(--field-border);
   background: var(--field-bg);
   color: var(--text-soft);
@@ -583,6 +585,13 @@ const goToSignUp = () => {
 
 .password-input-wrapper .form-input {
   padding-right: 2.4rem;
+}
+
+/* Hide native browser password reveal/clear icons (Edge/IE),
+   so only the custom eye toggle is shown. */
+.password-input-wrapper input[type='password']::-ms-reveal,
+.password-input-wrapper input[type='password']::-ms-clear {
+  display: none;
 }
 
 .password-toggle {

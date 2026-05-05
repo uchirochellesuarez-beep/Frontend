@@ -529,6 +529,10 @@
                   <input type="checkbox" v-model="reportFilters.showBookings" />
                   <span>Bookings Summary</span>
                 </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" v-model="reportFilters.showCollectiblesForm" />
+                  <span>List of Collectibles (Talaan ng mga Singilin)</span>
+                </label>
               </div>
             </div>
             
@@ -578,22 +582,98 @@
         
         <!-- Report Display -->
         <div v-if="reportData && !reportLoading" class="report-display" id="printable-report">
-          <!-- Report Header -->
+          <!-- Report Header (CFA = Barangay scope; period from filter/API; no contact/address) -->
           <div class="report-header">
             <div class="report-logo">
-              <span class="logo-icon">🌾</span>
+              <img :src="reportLogoUrl" alt="CALFFA Logo" class="report-logo-image" />
               <div class="logo-text">
-                <h3>CALFFA Cooperative</h3>
-                <p>Machinery Financial Report</p>
+                <p class="report-cfa-line">
+                  <strong>Name ng CFA:</strong> {{ reportBarangayNameForReport }}
+                </p>
+                <h3 class="report-doc-title">Machinery Financial Report</h3>
               </div>
             </div>
             <div class="report-meta">
               <h3>{{ reportData.type.charAt(0).toUpperCase() + reportData.type.slice(1) }} Transaction Report</h3>
-              <p class="report-period">
-                <strong>Period:</strong> {{ formatReportDate(reportData.period.start) }} - {{ formatReportDate(reportData.period.end) }}
+              <p class="report-period-long">
+                {{ formatReportPeriodLong(reportData.period.start, reportData.period.end) }}
               </p>
               <p class="report-generated">
                 Generated: {{ formatReportDate(reportData.generated_at) }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Official sheet: List of Collectibles / Talaan ng mga Singilin (no contact / address) -->
+          <div v-if="reportFilters.showCollectiblesForm" class="collectibles-form-sheet">
+            <div class="collectibles-form-title-block">
+              <h2 class="collectibles-main-title">List of Collectibles</h2>
+              <p class="collectibles-main-subtitle">Talaan ng mga Singilin</p>
+            </div>
+
+            <div class="collectibles-meta-box">
+              <div class="collectibles-meta-row">
+                <span class="collectibles-meta-label">Name ng CFA / Name of FCA:</span>
+                <span class="collectibles-meta-value">{{ reportBarangayNameForReport }}</span>
+              </div>
+              <div class="collectibles-meta-row">
+                <span class="collectibles-meta-label">Uri ng makinarya / Type of Farm Machinery:</span>
+                <span class="collectibles-meta-value">{{ collectiblesMachineryLine }}</span>
+              </div>
+              <div class="collectibles-meta-row collectibles-meta-row-full">
+                <span class="collectibles-meta-label">Buwan saklaw ng talaan / Period covered:</span>
+                <span class="collectibles-meta-value">{{ formatReportPeriodLong(reportData.period.start, reportData.period.end) }}</span>
+              </div>
+            </div>
+
+            <div class="collectibles-table-wrap">
+              <table class="collectibles-data-table">
+                <thead>
+                  <tr>
+                    <th class="col-client">
+                      Name of Client<br />
+                      <span class="th-tl">(Pangalan ng Kliyente)</span>
+                    </th>
+                    <th class="col-ar text-right">
+                      Accounts Receivable<br />
+                      <span class="th-tl">(Singilin)</span>
+                    </th>
+                    <th class="col-cash text-right">
+                      Cash Collection of Fees (C2)<br />
+                      <span class="th-tl">(Nakolektang bayad)</span>
+                    </th>
+                    <th class="col-date">
+                      Date of Payment<br />
+                      <span class="th-tl">(Petsa ng pagbayad)</span>
+                    </th>
+                    <th class="col-rcpt">Receipt Number</th>
+                    <th class="col-bal text-right">
+                      Remaining balance<br />
+                      <span class="th-tl">(natirang balanse)</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in collectiblesLedgerRows" :key="'cl-' + row.collectionId">
+                    <td>{{ row.farmer_name }}</td>
+                    <td class="text-right">{{ formatCollectiblesMoney(row.accounts_receivable) }}</td>
+                    <td class="text-right">{{ formatCollectiblesMoney(row.cash_collection) }}</td>
+                    <td>{{ formatReportDate(row.date) }}</td>
+                    <td>{{ row.receipt_number }}</td>
+                    <td class="text-right">{{ formatCollectiblesMoney(row.balance_after) }}</td>
+                  </tr>
+                  <tr v-for="n in collectiblesEmptyRowCount" :key="'cl-empty-' + n" class="collectibles-empty-row">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p v-if="collectiblesLedgerRows.length === 0" class="collectibles-empty-note">
+                Walang koleksyon sa piniling saklaw ng petsa / No collections in this period.
               </p>
             </div>
           </div>
@@ -1133,7 +1213,7 @@
 
     <!-- Alert Messages -->
     <div v-if="alert.show" :class="['alert', 'alert-' + alert.type]">
-      <span>{{ alert.message }}</span>
+      <span class="alert-message">{{ alert.message }}</span>
       <button @click="alert.show = false" class="alert-close">×</button>
     </div>
   </div>
@@ -1147,6 +1227,7 @@ import { useAuthStore } from '../stores/authStore';
 const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
+const reportLogoUrl = 'https://tse1.mm.bing.net/th/id/OIP.6bwLRZ62anox4000YCXuQwAAAA?rs=1&pid=ImgDetMain&o=7&rm=3';
 
 const highlightedBookingId = ref(null);
 
@@ -1169,6 +1250,24 @@ const isTreasurer = computed(() => userRole.value === 'treasurer');
 
 // Check if user is admin (sees only profit and reports tabs)
 const isAdmin = computed(() => userRole.value === 'admin');
+
+// Barangay tied to the report scope (admin = filter; others = user’s barangay)
+const reportEffectiveBarangayId = computed(() => {
+  if (isAdmin.value) return selectedBarangayId.value || '';
+  return userBarangayId.value != null && userBarangayId.value !== ''
+    ? String(userBarangayId.value)
+    : '';
+});
+
+const reportBarangayNameForReport = computed(() => {
+  const bid = reportEffectiveBarangayId.value;
+  if (!bid) {
+    if (isAdmin.value) return '(Pumili ng Barangay sa filter sa itaas)';
+    return '—';
+  }
+  const row = barangays.value.find((b) => String(b.id) === String(bid));
+  return row?.name || bid;
+});
 
 // Check if user can manage (only treasurer)
 const canManage = computed(() => isTreasurer.value);
@@ -1360,10 +1459,88 @@ const reportFilters = ref({
   showExpenses: true,
   showCollections: true,
   showBookings: true,
+  showCollectiblesForm: true,
   customDateRange: false,
   startDate: '',
   endDate: ''
 });
+
+const COLLECTIBLES_MIN_PRINT_ROWS = 20;
+
+/** Bilingual machinery line for collectibles sheet (from report collections). */
+const collectiblesMachineryLine = computed(() => {
+  const cols = reportData.value?.transactions?.collections;
+  if (!cols?.length) return '—';
+  const names = [...new Set(cols.map((c) => c.machinery_name).filter(Boolean))];
+  return names.length ? names.join(', ') : '—';
+});
+
+/** One row per collection payment; A/R & balance use booking total from API when available. */
+const collectiblesLedgerRows = computed(() => {
+  const cols = reportData.value?.transactions?.collections;
+  if (!cols?.length) return [];
+  const bookingMap = {};
+  for (const b of reportData.value?.transactions?.bookings || []) {
+    const bid = b.booking_id;
+    if (bid != null) bookingMap[bid] = b;
+  }
+  const sorted = [...cols].sort((a, b) => {
+    const ta = new Date(a.date).getTime();
+    const tb = new Date(b.date).getTime();
+    if (ta !== tb) return ta - tb;
+    return (Number(a.id) || 0) - (Number(b.id) || 0);
+  });
+  const paidByBooking = {};
+  const rows = [];
+  for (const c of sorted) {
+    const bid = c.booking_id;
+    let total =
+      c.booking_total_price != null && c.booking_total_price !== ''
+        ? parseFloat(c.booking_total_price)
+        : NaN;
+    if (Number.isNaN(total) && bid != null && bookingMap[bid]) {
+      total = parseFloat(bookingMap[bid].amount) || 0;
+    }
+    if (Number.isNaN(total)) total = 0;
+    const principal = parseFloat(c.amount || 0);
+    const interest = parseFloat(c.interest_amount || 0);
+    const interestApplied =
+      c.interest_applied === 1 ||
+      c.interest_applied === true ||
+      c.interest_applied === '1';
+    const cash = principal + (interestApplied ? interest : 0);
+    if (!paidByBooking[bid]) paidByBooking[bid] = 0;
+    paidByBooking[bid] += cash;
+    const balanceAfter = Math.max(0, total - paidByBooking[bid]);
+    rows.push({
+      collectionId: c.id,
+      farmer_name: c.farmer_name || '—',
+      accounts_receivable: total,
+      cash_collection: cash,
+      date: c.date,
+      receipt_number: (c.receipt_number && String(c.receipt_number).trim()) || '—',
+      balance_after: balanceAfter
+    });
+  }
+  return rows;
+});
+
+const collectiblesEmptyRowCount = computed(() => {
+  const n = collectiblesLedgerRows.value.length;
+  return Math.max(0, COLLECTIBLES_MIN_PRINT_ROWS - n);
+});
+
+const formatCollectiblesMoney = (num) => {
+  const x = parseFloat(num);
+  if (Number.isNaN(x)) return '—';
+  return (
+    '₱' +
+    x.toLocaleString('en-PH', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })
+  );
+};
 
 const printOrientation = ref('landscape');
 
@@ -2051,6 +2228,22 @@ const formatReportDate = (dateStr) => {
   });
 };
 
+/** e.g. Mula March 1 – September 30, Year: 2026 (from report / filter period) */
+const formatReportPeriodLong = (startStr, endStr) => {
+  if (!startStr || !endStr) return '-';
+  const start = new Date(startStr);
+  const end = new Date(endStr);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return '-';
+  const monthDay = (d) =>
+    d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  const y1 = start.getFullYear();
+  const y2 = end.getFullYear();
+  if (y1 === y2) {
+    return `Mula ${monthDay(start)} – ${monthDay(end)}, Year: ${y1}`;
+  }
+  return `Mula ${monthDay(start)}, Year: ${y1} – ${monthDay(end)}, Year: ${y2}`;
+};
+
 const getTransactionTypeClass = (type) => {
   switch (type) {
     case 'Expense': return 'badge-expense';
@@ -2068,6 +2261,7 @@ const selectAllFilters = () => {
   reportFilters.value.showExpenses = true;
   reportFilters.value.showCollections = true;
   reportFilters.value.showBookings = true;
+  reportFilters.value.showCollectiblesForm = true;
 };
 
 const clearAllFilters = () => {
@@ -2077,6 +2271,7 @@ const clearAllFilters = () => {
   reportFilters.value.showExpenses = false;
   reportFilters.value.showCollections = false;
   reportFilters.value.showBookings = false;
+  reportFilters.value.showCollectiblesForm = false;
 };
 
 // Generate report with custom date range
@@ -2148,12 +2343,21 @@ const printReport = () => {
 
     .report-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #2d6a4f; padding-bottom: 15px; margin-bottom: 20px; }
     .report-logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon { font-size: 32px; }
-    .logo-text h3 { font-size: 18px; color: #2d6a4f; }
-    .logo-text p { font-size: 12px; color: #666; }
+    .report-logo-image {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #2d6a4f;
+      background: #fff;
+      padding: 2px;
+    }
+    .report-cfa-line { font-size: 13px; color: #14532d; font-weight: 600; margin: 0 0 4px; line-height: 1.35; }
+    .report-doc-title { font-size: 18px; color: #2d6a4f; margin: 0; font-weight: 700; }
+    .report-period-long { font-size: 12px; color: #1f2937; margin-top: 6px; font-weight: 600; line-height: 1.4; }
     .report-meta { text-align: right; }
     .report-meta h3 { font-size: 16px; color: #2d6a4f; }
-    .report-period, .report-generated { font-size: 11px; color: #666; margin-top: 3px; }
+    .report-generated { font-size: 11px; color: #666; margin-top: 8px; }
 
     .report-summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
     .summary-card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; }
@@ -2209,6 +2413,44 @@ const printReport = () => {
     .badge-pending { background: #fff3e0; color: #e65100; }
     .badge-unpaid { background: #fce4ec; color: #c62828; }
     .badge-paid { background: #e8f5e9; color: #2e7d32; }
+
+    .collectibles-form-sheet {
+      margin: 20px 0 24px;
+      page-break-inside: avoid;
+      border: 2px solid #1f2937;
+      padding: 14px 16px 18px;
+      background: #fff;
+      border-radius: 4px;
+    }
+    .collectibles-form-title-block { text-align: center; margin-bottom: 14px; }
+    .collectibles-main-title { font-size: 17px; font-weight: 800; color: #0f172a; }
+    .collectibles-main-subtitle { font-size: 14px; font-weight: 700; color: #334155; margin-top: 4px; }
+    .collectibles-meta-box { border: 1px solid #334155; padding: 10px 12px; margin-bottom: 12px; font-size: 11px; border-radius: 4px; }
+    .collectibles-meta-row { margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+    .collectibles-meta-row-full { margin-bottom: 0; }
+    .collectibles-meta-label { font-weight: 800; color: #0f172a; min-width: 220px; }
+    .collectibles-meta-value {
+      flex: 1;
+      min-width: 180px;
+      border-bottom: 1px solid #64748b;
+      padding: 0 4px 2px;
+      color: #111;
+      font-weight: 600;
+    }
+    .collectibles-table-wrap { overflow-x: auto; }
+    .collectibles-data-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 4px; table-layout: fixed; }
+    .collectibles-data-table th, .collectibles-data-table td { border: 1px solid #1e293b; padding: 7px 6px; vertical-align: middle; }
+    .collectibles-data-table th { background: #e2e8f0; font-weight: 800; text-align: center; line-height: 1.28; color: #0f172a; }
+    .collectibles-data-table .th-tl { display: block; font-weight: 600; font-size: 9px; color: #475569; margin-top: 3px; }
+    .collectibles-data-table td { word-wrap: break-word; color: #111; }
+    .collectibles-data-table .col-client { width: 22%; }
+    .collectibles-data-table .col-ar { width: 15%; }
+    .collectibles-data-table .col-cash { width: 18%; }
+    .collectibles-data-table .col-date { width: 14%; }
+    .collectibles-data-table .col-rcpt { width: 14%; }
+    .collectibles-data-table .col-bal { width: 17%; }
+    .collectibles-empty-row td { height: 26px; background: #fff; }
+    .collectibles-empty-note { font-size: 11px; margin-top: 10px; color: #64748b; text-align: center; }
 
     .report-footer { margin-top: 30px; padding-top: 15px; border-top: 2px solid #e0e0e0; text-align: center; color: #999; font-size: 11px; }
     .footer-date { margin-top: 3px; }
@@ -2322,10 +2564,8 @@ onMounted(async () => {
     loadExpenseBreakdown();
     loadMachinery();
     loadTotalMembers();
-    // Load barangays for admin filter
-    if (isAdmin.value) {
-      loadBarangays();
-    }
+    // Barangay list: admin filter + name ng CFA sa reports para sa treasurer/president/auditor
+    loadBarangays();
   }
 
   // Handle notification highlight
@@ -3598,11 +3838,15 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  z-index: 999;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 10060;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
   animation: slideUp 0.3s ease-out;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  isolation: isolate;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  min-width: 320px;
+  max-width: 520px;
 }
 
 @keyframes slideUp {
@@ -3617,23 +3861,35 @@ onBeforeUnmount(() => {
 }
 
 .alert-success {
-  background: rgba(74, 222, 128, 0.18);
-  color: #b7f7c8;
-  border-color: rgba(74, 222, 128, 0.3);
+  background: #ecfdf5 !important;
+  color: #14532d !important;
+  border-color: #86efac !important;
 }
 
 .alert-error {
-  background: rgba(248, 113, 113, 0.18);
-  color: #fecaca;
-  border-color: rgba(248, 113, 113, 0.3);
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+  border-color: #fca5a5 !important;
+}
+
+.alert-message {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0.1px;
 }
 
 .alert-close {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
-  opacity: 0.7;
+  font-size: 20px;
+  font-weight: 800;
+  color: inherit;
+  opacity: 0.75;
+  padding: 0 2px;
 }
 
 .alert-close:hover {
@@ -3854,7 +4110,8 @@ onBeforeUnmount(() => {
   font-size: 1.5rem;
 }
 
-.report-period, .report-generated {
+.report-period-long,
+.report-generated {
   margin: 4px 0;
   opacity: 0.9;
 }
@@ -4447,19 +4704,36 @@ onBeforeUnmount(() => {
   gap: 12px;
 }
 
-.logo-icon {
-  font-size: 48px;
+.report-logo-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.86);
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+  padding: 3px;
 }
 
-.logo-text h3 {
+.report-cfa-line {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #f0fdf4;
+  line-height: 1.4;
+}
+
+.report-cfa-line strong {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.report-doc-title {
   margin: 0;
-  font-size: 22px;
-}
-
-.logo-text p {
-  margin: 4px 0 0;
-  opacity: 0.9;
-  font-size: 14px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
 }
 
 .report-meta {
@@ -4471,10 +4745,144 @@ onBeforeUnmount(() => {
   font-size: 18px;
 }
 
-.report-period, .report-generated {
-  margin: 4px 0;
-  font-size: 13px;
-  opacity: 0.9;
+.report-period-long {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: rgba(240, 253, 244, 0.96);
+  line-height: 1.45;
+}
+
+.report-generated {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.88;
+  color: rgba(240, 253, 244, 0.95);
+}
+
+/* Official collectibles sheet (screen + print via shared classes) */
+.collectibles-form-sheet {
+  margin: 20px 0 28px;
+  padding: 20px 22px 22px;
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.collectibles-form-title-block {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.collectibles-main-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.collectibles-main-subtitle {
+  margin: 6px 0 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.collectibles-meta-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: #f8fafc;
+}
+
+.collectibles-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+}
+
+.collectibles-meta-row-full {
+  margin-bottom: 0;
+}
+
+.collectibles-meta-label {
+  font-weight: 800;
+  color: #0f172a;
+  min-width: min(100%, 260px);
+}
+
+.collectibles-meta-value {
+  flex: 1;
+  min-width: 200px;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 1px solid #94a3b8;
+  padding: 0 2px 4px;
+}
+
+.collectibles-table-wrap {
+  overflow-x: auto;
+}
+
+.collectibles-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  table-layout: fixed;
+}
+
+.collectibles-data-table th,
+.collectibles-data-table td {
+  border: 1px solid #1e293b;
+  padding: 10px 8px;
+  vertical-align: middle;
+}
+
+.collectibles-data-table th {
+  background: #e2e8f0;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.collectibles-data-table .th-tl {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.collectibles-data-table td {
+  color: #0f172a;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.collectibles-data-table .col-client { width: 22%; text-align: left; }
+.collectibles-data-table .col-ar { width: 15%; }
+.collectibles-data-table .col-cash { width: 18%; }
+.collectibles-data-table .col-date { width: 14%; }
+.collectibles-data-table .col-rcpt { width: 14%; text-align: center; }
+.collectibles-data-table .col-bal { width: 17%; }
+
+.collectibles-empty-row td {
+  height: 28px;
+  background: #fff;
+}
+
+.collectibles-empty-note {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  color: #64748b;
+  text-align: center;
 }
 
 /* Enhanced Summary Cards */

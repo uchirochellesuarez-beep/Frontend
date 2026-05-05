@@ -16,7 +16,7 @@
     <!-- Page Header -->
     <div class="page-header" v-show="canApproveBookings || canCompleteBookings">
       <div class="header-content">
-        <h1 class="page-title" v-if="canApproveBookings">✅ Machinery Booking Approvals</h1>
+        <h1 class="page-title" v-if="canApproveBookings">Machinery Booking Approvals</h1>
         <h1 class="page-title" v-else-if="canCompleteBookings">🏁 Machinery Booking Operations</h1>
         <p class="page-subtitle" v-if="canApproveBookings">Review and manage machinery booking requests</p>
         <p class="page-subtitle" v-else-if="canCompleteBookings">Track approved bookings and mark usage status</p>
@@ -920,22 +920,31 @@ export default {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
+  color: #f0fdf4;
 }
 
 .page-header {
   margin-bottom: 24px;
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.92), rgba(4, 120, 87, 0.82));
+  border: 1px solid rgba(167, 243, 208, 0.28);
+  border-radius: 18px;
+  padding: 20px 24px;
+  box-shadow: 0 14px 30px rgba(4, 67, 53, 0.28);
 }
 
 .page-title {
   font-size: 28px;
   font-weight: bold;
-  color: #1a1a1a;
+  color: #ffffff;
   margin: 0;
+  letter-spacing: 0.2px;
 }
 
 .page-subtitle {
-  color: #666;
-  margin: 4px 0 0 0;
+  color: rgba(236, 253, 245, 0.9);
+  margin: 6px 0 0 0;
+  font-size: 0.98rem;
+  font-weight: 500;
 }
 
 .stats-grid {
@@ -946,29 +955,45 @@ export default {
 }
 
 .stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
+  background: linear-gradient(140deg, rgba(6, 95, 70, 0.88), rgba(22, 163, 74, 0.72));
+  border-radius: 16px;
+  border: 1px solid rgba(236, 253, 245, 0.26);
+  padding: 20px 22px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 24px rgba(6, 78, 59, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(6, 78, 59, 0.3);
 }
 
 .stat-icon {
-  font-size: 36px;
+  font-size: 30px;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .stat-label {
-  color: #666;
+  color: rgba(240, 253, 244, 0.9);
   font-size: 14px;
   margin-bottom: 4px;
+  font-weight: 700;
 }
 
 .stat-value {
   font-size: 28px;
   font-weight: bold;
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .stat-pending { border-left: 4px solid #f59e0b; }
@@ -978,16 +1003,17 @@ export default {
 .stat-working { border-left: 4px solid #8b5cf6; }
 
 .info-banner {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-left: 4px solid #3b82f6;
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.95) 0%, rgba(219, 234, 254, 0.94) 100%);
+  border-left: 4px solid #2563eb;
   padding: 14px 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 14px;
-  color: #1e40af;
+  font-size: 15px;
+  color: #1e3a8a;
+  box-shadow: 0 8px 20px rgba(30, 64, 175, 0.15);
 }
 
 .banner-icon {
@@ -1004,13 +1030,16 @@ export default {
 }
 
 .filters-section {
-  background: white;
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.78), rgba(4, 120, 87, 0.72));
+  border-radius: 16px;
+  border: 1px solid rgba(236, 253, 245, 0.22);
   padding: 20px;
   margin-bottom: 24px;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  align-items: flex-end;
+  box-shadow: 0 10px 24px rgba(6, 78, 59, 0.2);
 }
 
 .filter-group {
@@ -1020,17 +1049,27 @@ export default {
 
 .filter-label {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
-  color: #333;
+  color: #ecfdf5;
+  letter-spacing: 0.2px;
 }
 
 .filter-select {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 11px 14px;
+  border: 1px solid rgba(167, 243, 208, 0.38);
+  border-radius: 10px;
   font-size: 14px;
+  font-weight: 600;
+  color: #052e16;
+  background: #f0fdf4;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #34d399;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
 
 .quick-filters {
@@ -1038,9 +1077,11 @@ export default {
   gap: 12px;
   margin-bottom: 24px;
   flex-wrap: wrap;
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 12px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 14px;
+  border: 1px solid rgba(4, 120, 87, 0.16);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
 .filter-btn {
@@ -1195,10 +1236,11 @@ export default {
 }
 
 .table-container {
-  background: white;
-  border-radius: 12px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(4, 120, 87, 0.2);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
 }
 
 .bookings-table {
@@ -1207,20 +1249,25 @@ export default {
 }
 
 .bookings-table thead {
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
 }
 
 .bookings-table th {
   padding: 16px;
   text-align: left;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e5e7eb;
+  font-weight: 700;
+  color: #14532d;
+  border-bottom: 2px solid #bbf7d0;
 }
 
 .bookings-table td {
   padding: 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #dcfce7;
+  color: #0f172a;
+}
+
+.bookings-table tbody tr:hover {
+  background: #f0fdf4;
 }
 
 .farmer-info,
@@ -1275,16 +1322,23 @@ export default {
 }
 
 .btn-icon-small {
-  padding: 6px 10px;
-  border: none;
-  background: #f3f4f6;
-  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 9px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
 }
 
 .btn-icon-small:hover {
-  background: #e5e7eb;
+  background: #e2e8f0;
+  transform: translateY(-1px);
 }
 
 .btn-icon-small.btn-success {
@@ -1320,12 +1374,38 @@ export default {
 }
 
 .btn-secondary {
-  background: #6b7280;
+  background: linear-gradient(135deg, #475569, #64748b);
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  padding: 11px 20px;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
+  margin-left: auto;
+}
+
+.btn-secondary:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 768px) {
+  .machinery-approval-page {
+    padding: 16px;
+  }
+
+  .page-title {
+    font-size: 23px;
+  }
+
+  .filters-section {
+    gap: 14px;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .btn-success {

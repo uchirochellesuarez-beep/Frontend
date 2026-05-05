@@ -1159,6 +1159,8 @@ router.get('/reports/transactions', verifyFinancialAccess, async (req, res) => {
         mbp.amount as amount,
         f.full_name as farmer_name,
         mbp.booking_id,
+        mb.total_price as booking_total_price,
+        mb.payment_status as booking_payment_status,
         mbp.payment_type,
         mbp.interest_amount,
         mbp.interest_applied,

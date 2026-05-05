@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h1 class="page-title">🌾 Talaan ng Kita ng mga Magsasaka</h1>
+      <h1 class="page-title">Talaan ng Kita ng mga Magsasaka</h1>
       <p class="page-subtitle">Suriin ang mga naitatalang kita mula sa mga magsasaka sa iyong barangay</p>
     </div>
 
@@ -18,8 +18,6 @@
 
     <!-- Error Message -->
     <div v-if="errorMessage" class="alert alert-error">
-
-      /* Finishing polish */
       <span>❌ {{ errorMessage }}</span>
       <button class="alert-close" @click="errorMessage = ''">&times;</button>
     </div>
@@ -75,14 +73,22 @@
         >
           <div class="record-header">
             <div class="farmer-info">
-              <span class="farmer-name">👨‍🌾 {{ record.farmer_name }}</span>
+              <span class="farmer-name">{{ record.farmer_name }}</span>
               <span class="record-date">📅 {{ formatDate(record.created_at) }}</span>
             </div>
             <div class="header-actions">
               <span class="status-badge" :class="'status-' + getStatusClass(record.status)">
                 {{ record.status }}
               </span>
-              <button class="view-btn" @click="openRecordDetail(record)">👁️ Tingnan</button>
+              <button class="view-btn" @click="openRecordDetail(record)">
+                <span class="view-icon" aria-hidden="true">
+                  <svg class="view-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"></path>
+                    <circle cx="12" cy="12" r="2.7"></circle>
+                  </svg>
+                </span>
+                <span>Tingnan</span>
+              </button>
             </div>
           </div>
           <div class="record-details">
@@ -646,21 +652,45 @@ onMounted(() => {
 .status-received { background: #c6f6d5; color: #22543d; }
 
 .view-btn {
-  padding: 0.4rem 1rem;
+  padding: 0.56rem 1.08rem;
   background: linear-gradient(135deg, #166534, #16a34a);
   color: white;
-  border: none;
-  border-radius: 6px;
+  border: 1px solid rgba(187, 247, 208, 0.6);
+  border-radius: 9px;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 800;
   transition: all 0.2s;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46rem;
+  box-shadow: 0 8px 14px rgba(3, 12, 8, 0.28);
 }
 
 .view-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.3);
+  box-shadow: 0 10px 16px rgba(22, 101, 52, 0.35);
+  filter: brightness(1.03);
+}
+
+.view-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.view-icon-svg {
+  width: 13px;
+  height: 13px;
+  display: block;
 }
 
 .record-details {
@@ -1498,5 +1528,186 @@ onMounted(() => {
 .btn-close-modal:hover,
 .btn-cancel:hover {
   background: rgba(255, 255, 255, 0.14);
+}
+
+/* Premium UI polish */
+.records-grid {
+  gap: 1.15rem;
+}
+
+.record-card {
+  border-radius: 20px;
+  border: 1px solid rgba(126, 184, 145, 0.22);
+  box-shadow: 0 14px 28px rgba(5, 12, 8, 0.26);
+  overflow: hidden;
+}
+
+.record-card::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.7), rgba(45, 212, 191, 0.45), transparent);
+}
+
+.card-header {
+  padding-bottom: 0.9rem;
+}
+
+.farmer-name {
+  font-size: 1.07rem;
+  letter-spacing: -0.01em;
+}
+
+.farmer-date {
+  opacity: 0.9;
+}
+
+.status-badge {
+  border-radius: 999px;
+  padding: 0.42rem 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.status-badge.eligible {
+  background: rgba(134, 239, 172, 0.2);
+  border-color: rgba(134, 239, 172, 0.35);
+}
+
+.status-badge.pending {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.36);
+}
+
+.status-badge.completed {
+  background: rgba(74, 222, 128, 0.22);
+  border-color: rgba(74, 222, 128, 0.35);
+}
+
+.card-info {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.info-row {
+  padding: 0.18rem 0;
+}
+
+.info-label {
+  font-weight: 700;
+  color: #dcfce7;
+}
+
+.info-value {
+  font-weight: 700;
+}
+
+.card-financials {
+  margin-top: 0.35rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(126, 184, 145, 0.2);
+}
+
+.fin-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(126, 184, 145, 0.16);
+  border-radius: 10px;
+  padding: 0.48rem 0.55rem;
+}
+
+.fin-item > span:first-child {
+  color: rgba(220, 252, 231, 0.78);
+  font-weight: 700;
+}
+
+.fin-value {
+  font-size: 1.05rem;
+}
+
+.card-actions {
+  margin-top: 0.55rem;
+}
+
+.btn-details,
+.btn-assistance,
+.btn-completed {
+  min-height: 40px;
+  border-radius: 10px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.btn-details:hover,
+.btn-assistance:hover,
+.btn-completed:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 8px 14px rgba(3, 10, 8, 0.24);
+}
+
+.section-title {
+  margin-bottom: 0.85rem;
+  padding-left: 0.15rem;
+  font-size: 1.22rem;
+  font-weight: 900;
+  color: #ffffff !important;
+  letter-spacing: -0.01em;
+}
+
+.records-grid .record-card .farmer-avatar {
+  width: 42px;
+  height: 42px;
+  font-size: 1.3rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 222, 128, 0.2);
+  border: 1px solid rgba(134, 239, 172, 0.35);
+}
+
+.records-grid .record-card .farmer-name {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.records-grid .record-card .farmer-date {
+  color: rgba(220, 252, 231, 0.9) !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.records-grid .record-card .status-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.records-grid .record-card .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+
+.records-grid .record-card .info-label {
+  color: #d1fae5 !important;
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.records-grid .record-card .info-value {
+  color: #ffffff !important;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.records-grid .record-card .btn-completed {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
 }
 </style>
